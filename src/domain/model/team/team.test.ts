@@ -20,7 +20,7 @@ describe("Team", () => {
     expect(team.getStudentIds.map((id) => id.value)).toEqual(
       studentIds.map((id) => id.value),
     );
-    expect(team.getRecommendAction()).toBeNull();
+    expect(team.getRecommendAction().value).toBe("NOACTION");
   });
 
   it("Teamの名称変更", () => {
@@ -41,7 +41,7 @@ describe("Team", () => {
 
     expect(team.getStudentIds).toHaveLength(5);
     expect(team.getStudentIds.map((id) => id.value)).toContain(newMember.value);
-    expect(team.getRecommendAction()).toBe("SPLIT");
+    expect(team.getRecommendAction().value).toBe("SPLIT");
   });
 
   it("Teamのメンバー削除", () => {
@@ -54,7 +54,7 @@ describe("Team", () => {
     team.removeMember(targetMember);
 
     expect(team.getStudentIds).toHaveLength(1);
-    expect(team.getRecommendAction()).toBe("DISBAND");
+    expect(team.getRecommendAction().value).toBe("DISBAND");
   });
 
   it("Teamのメンバー入れ替え", () => {
@@ -70,7 +70,7 @@ describe("Team", () => {
     expect(team.getStudentIds.map((id) => id.value)).toEqual(
       replacementMembers.map((id) => id.value),
     );
-    expect(team.getRecommendAction()).toBeNull();
+    expect(team.getRecommendAction().value).toBe("NOACTION");
   });
 
   it("Teamのメール通知判定", () => {

@@ -1,6 +1,6 @@
 import { Entity } from "../__shared__/entity";
 import type { StudentId } from "../student/value-object/student-id";
-import type { RecommendAction } from "./value-object/recomment-action";
+import { RecommendAction } from "./value-object/recomment-action";
 import { TeamId } from "./value-object/team-id";
 import type { TeamName } from "./value-object/team-name";
 
@@ -8,13 +8,13 @@ interface TeamProps {
   id: TeamId;
   name: TeamName;
   studentIds: StudentId[];
-  recommendAction: RecommendAction | null;
+  recommendAction: RecommendAction;
 }
 
 export class Team extends Entity<TeamId> {
   private name: TeamName;
   private studentIds: StudentId[];
-  private recommendAction: RecommendAction | null;
+  private recommendAction: RecommendAction;
 
   private constructor(props: TeamProps) {
     super(props.id);
@@ -24,13 +24,15 @@ export class Team extends Entity<TeamId> {
   }
 
   public static create(name: TeamName, studentIds: StudentId[]): Team {
+    const initialRecommendAction = RecommendAction.determineRecommendAction(
+      studentIds.length,
+    );
     const team = new Team({
       id: TeamId.create(),
       name: name,
       studentIds: studentIds,
-      recommendAction: null,
+      recommendAction: initialRecommendAction,
     });
-    team.updateRecommendAction();
     return team;
   }
 
@@ -46,7 +48,7 @@ export class Team extends Entity<TeamId> {
     return [...this.studentIds];
   }
 
-  public getRecommendAction(): RecommendAction | null {
+  public getRecommendAction(): RecommendAction {
     return this.recommendAction;
   }
 
@@ -55,7 +57,7 @@ export class Team extends Entity<TeamId> {
   }
 
   public addMember(studentId: StudentId): void {
-    if (this.recommendAction === "SPLIT") {
+    if (this.recommendAction.isSplit()) {
       throw new Error("Cannot add member to a team recommended for splitting");
     }
     if (this.studentIds.includes(studentId)) {
@@ -66,7 +68,7 @@ export class Team extends Entity<TeamId> {
   }
 
   public removeMember(studentId: StudentId): void {
-    if (this.recommendAction === "DISBAND") {
+    if (this.recommendAction.isDisband()) {
       throw new Error(
         "Cannot remove member from a team recommended for disbanding",
       );
@@ -94,24 +96,8 @@ export class Team extends Entity<TeamId> {
   }
 
   private updateRecommendAction(): void {
-    if (this.isOverCapacity()) {
-      this.recommendAction = "SPLIT";
-      return;
-    }
-
-    if (this.isUnderCapacity()) {
-      this.recommendAction = "DISBAND";
-      return;
-    }
-
-    this.recommendAction = null;
-  }
-
-  private isOverCapacity(): boolean {
-    return this.studentIds.length > 4;
-  }
-
-  private isUnderCapacity(): boolean {
-    return this.studentIds.length < 2;
+    this.recommendAction = RecommendAction.determineRecommendAction(
+      this.studentIds.length,
+    );
   }
 }
