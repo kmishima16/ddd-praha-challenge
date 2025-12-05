@@ -1,6 +1,6 @@
 import { Entity } from "../__shared__/entity";
 import type { StudentId } from "../student/value-object/student-id";
-import { RecommendAction } from "./value-object/recomment-action";
+import { RecommendAction } from "./value-object/recommend-action";
 import { TeamId } from "./value-object/team-id";
 import type { TeamName } from "./value-object/team-name";
 
