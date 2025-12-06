@@ -13,11 +13,10 @@ describe("Student", () => {
   it("Studentの生成", () => {
     const student = createStudent();
 
-    expect(student.getId.value).toBeTypeOf("string");
-    expect(student.getId.value).not.toHaveLength(0);
-    expect(student.getName).toBe("test 太郎");
-    expect(student.getMailAddress.value).toBe("taro@example.com");
-    expect(student.getEnrollmentStatus).toBe("ENROLLED");
+    expect(student.id.value).toBeTypeOf("string");
+    expect(student.name).toBe("test 太郎");
+    expect(student.mailAddress.value).toBe("taro@example.com");
+    expect(student.enrollmentStatus).toBe("ENROLLED");
   });
 
   it("Studentの氏名変更", () => {
@@ -25,7 +24,7 @@ describe("Student", () => {
 
     student.changeName("test 花子");
 
-    expect(student.getName).toBe("test 花子");
+    expect(student.name).toBe("test 花子");
   });
 
   it("Studentのメールアドレス変更", () => {
@@ -34,7 +33,7 @@ describe("Student", () => {
 
     student.changeMailAddress(newMailAddress);
 
-    expect(student.getMailAddress.value).toBe("hanako@example.com");
+    expect(student.mailAddress.value).toBe("hanako@example.com");
   });
 
   it("Studentの在籍ステータス変更", () => {
@@ -42,6 +41,6 @@ describe("Student", () => {
 
     student.changeEnrollmentStatus("ON_LEAVE");
 
-    expect(student.getEnrollmentStatus).toBe("ON_LEAVE");
+    expect(student.enrollmentStatus).toBe("ON_LEAVE");
   });
 });

@@ -12,15 +12,15 @@ interface LessonProgressProps {
 }
 
 export class LessonProgress extends Entity<LessonProgressId> {
-  private studentId: StudentId;
-  private lessonId: LessonId;
-  private status: ProgressStatus;
+  #studentId: StudentId;
+  #lessonId: LessonId;
+  #status: ProgressStatus;
 
   private constructor(props: LessonProgressProps) {
     super(props.id);
-    this.studentId = props.studentId;
-    this.lessonId = props.lessonId;
-    this.status = props.status;
+    this.#studentId = props.studentId;
+    this.#lessonId = props.lessonId;
+    this.#status = props.status;
   }
 
   public static create(
@@ -35,20 +35,16 @@ export class LessonProgress extends Entity<LessonProgressId> {
     });
   }
 
-  get getId(): LessonProgressId {
-    return this.id;
+  get studentId(): StudentId {
+    return this.#studentId;
   }
 
-  get getStudentId(): StudentId {
-    return this.studentId;
+  get lessonId(): LessonId {
+    return this.#lessonId;
   }
 
-  get getLessonId(): LessonId {
-    return this.lessonId;
-  }
-
-  get getStatus(): ProgressStatus {
-    return this.status;
+  get status(): ProgressStatus {
+    return this.#status;
   }
 
   public start(): void {
@@ -57,7 +53,7 @@ export class LessonProgress extends Entity<LessonProgressId> {
         `Cannot start challenge. Current status is ${this.status.value}`,
       );
     }
-    this.status = new ProgressStatus("IN_PROGRESS");
+    this.#status = new ProgressStatus("IN_PROGRESS");
   }
 
   public submit(): void {
@@ -66,7 +62,7 @@ export class LessonProgress extends Entity<LessonProgressId> {
         `Cannot submit challenge. Current status is ${this.status.value}`,
       );
     }
-    this.status = new ProgressStatus("IN_REVIEW");
+    this.#status = new ProgressStatus("IN_REVIEW");
   }
 
   public reject(): void {
@@ -75,7 +71,7 @@ export class LessonProgress extends Entity<LessonProgressId> {
         `Cannot reject challenge. Current status is ${this.status.value}`,
       );
     }
-    this.status = new ProgressStatus("IN_PROGRESS");
+    this.#status = new ProgressStatus("IN_PROGRESS");
   }
 
   public complete(): void {
@@ -84,6 +80,6 @@ export class LessonProgress extends Entity<LessonProgressId> {
         `Cannot complete challenge. Current status is ${this.status.value}`,
       );
     }
-    this.status = new ProgressStatus("COMPLETED");
+    this.#status = new ProgressStatus("COMPLETED");
   }
 }

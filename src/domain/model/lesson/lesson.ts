@@ -8,14 +8,14 @@ interface LessonProps {
 }
 
 export class Lesson extends Entity<LessonId> {
-  private name: string;
-  private content: string;
+  #name: string;
+  #content: string;
 
   private constructor(props: LessonProps) {
     super(props.id);
 
-    this.name = props.name;
-    this.content = props.content;
+    this.#name = props.name;
+    this.#content = props.content;
   }
 
   public static create(name: string, content: string): Lesson {
@@ -26,23 +26,19 @@ export class Lesson extends Entity<LessonId> {
     });
   }
 
-  get getId(): LessonId {
-    return this.id;
+  get name(): string {
+    return this.#name;
   }
 
-  get getName(): string {
-    return this.name;
-  }
-
-  get getContent(): string {
-    return this.content;
+  get content(): string {
+    return this.#content;
   }
 
   public changeName(name: string): void {
-    this.name = name;
+    this.#name = name;
   }
 
   public changeContent(content: string): void {
-    this.content = content;
+    this.#content = content;
   }
 }

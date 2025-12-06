@@ -11,15 +11,15 @@ interface StudentProps {
 }
 
 export class Student extends Entity<StudentId> {
-  private name: string;
-  private mailAddress: MailAddress;
-  private enrollmentStatus: EnrollmentStatus;
+  #name: string;
+  #mailAddress: MailAddress;
+  #enrollmentStatus: EnrollmentStatus;
 
   private constructor(props: StudentProps) {
     super(props.id);
-    this.name = props.name;
-    this.mailAddress = props.mailAddress;
-    this.enrollmentStatus = props.enrollmentStatus;
+    this.#name = props.name;
+    this.#mailAddress = props.mailAddress;
+    this.#enrollmentStatus = props.enrollmentStatus;
   }
 
   public static create(
@@ -35,31 +35,27 @@ export class Student extends Entity<StudentId> {
     });
   }
 
-  get getId(): StudentId {
-    return this.id;
+  get name(): string {
+    return this.#name;
   }
 
-  get getName(): string {
-    return this.name;
+  get mailAddress(): MailAddress {
+    return this.#mailAddress;
   }
 
-  get getMailAddress(): MailAddress {
-    return this.mailAddress;
-  }
-
-  get getEnrollmentStatus(): EnrollmentStatus {
-    return this.enrollmentStatus;
+  get enrollmentStatus(): EnrollmentStatus {
+    return this.#enrollmentStatus;
   }
 
   public changeName(name: string): void {
-    this.name = name;
+    this.#name = name;
   }
 
   public changeMailAddress(mailAddress: MailAddress): void {
-    this.mailAddress = mailAddress;
+    this.#mailAddress = mailAddress;
   }
 
   public changeEnrollmentStatus(enrollmentStatus: EnrollmentStatus): void {
-    this.enrollmentStatus = enrollmentStatus;
+    this.#enrollmentStatus = enrollmentStatus;
   }
 }
