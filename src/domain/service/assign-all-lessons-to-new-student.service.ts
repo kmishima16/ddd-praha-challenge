@@ -13,7 +13,7 @@ export class AssignAllLessonsToNewStudentService {
     const lessons = await this.lessonRepository.findAll();
 
     const lessonProgresses = lessons.map((lesson) => {
-      return LessonProgress.create(studentId, lesson.getId);
+      return LessonProgress.create(studentId, lesson.id);
     });
 
     await this.lessonProgressRepository.saveAll(lessonProgresses);
