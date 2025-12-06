@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { StudentId } from "../student/value-object/student-id";
 import { Team } from "./team";
 import { TeamName } from "./value-object/team-name";
-import { StudentId } from "../student/value-object/student-id";
 
 const createStudentIds = (count: number): StudentId[] =>
   Array.from({ length: count }, (_, index) =>

@@ -12,7 +12,7 @@ export abstract class ValueObject<T extends Record<string, unknown>> {
     if (vo.props === undefined) {
       return false;
     }
-    
+
     return JSON.stringify(this.props) === JSON.stringify(vo.props);
   }
 }
