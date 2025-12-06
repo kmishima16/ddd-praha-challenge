@@ -41,21 +41,21 @@ describe("TeamManagementService", () => {
 
       const newTeamName = TeamName.create("TEAM2");
       const [updatedTeam, newTeam] = await service.splitTeam({
-        splitTeamId: splitTeam.getId,
+        splitTeamId: splitTeam.id,
         newTeamName,
       });
 
-      expect(teamRepository.findById).toHaveBeenCalledWith(splitTeam.getId);
+      expect(teamRepository.findById).toHaveBeenCalledWith(splitTeam.id);
       expect(teamRepository.saveMany).toHaveBeenCalledTimes(1);
       expect(teamRepository.saveMany).toHaveBeenCalledWith([
         splitTeam,
         newTeam,
       ]);
-      expect(toValues(updatedTeam.getStudentIds)).toEqual([
+      expect(toValues(updatedTeam.studentIds)).toEqual([
         "student-4",
         "student-5",
       ]);
-      expect(toValues(newTeam.getStudentIds)).toEqual([
+      expect(toValues(newTeam.studentIds)).toEqual([
         "student-1",
         "student-2",
         "student-3",
@@ -76,15 +76,15 @@ describe("TeamManagementService", () => {
       vi.mocked(teamRepository.save).mockResolvedValue();
       vi.mocked(teamRepository.remove).mockResolvedValue();
 
-      await service.disbandTeam({ disbandTeamId: disbandTeam.getId });
+      await service.disbandTeam({ disbandTeamId: disbandTeam.id });
 
-      expect(teamRepository.findById).toHaveBeenCalledWith(disbandTeam.getId);
+      expect(teamRepository.findById).toHaveBeenCalledWith(disbandTeam.id);
       expect(teamRepository.findTeamByMinMemberCount).toHaveBeenCalledWith(
-        disbandTeam.getId,
+        disbandTeam.id,
       );
       expect(teamRepository.save).toHaveBeenCalledWith(destinationTeam);
-      expect(teamRepository.remove).toHaveBeenCalledWith(disbandTeam.getId);
-      expect(toValues(destinationTeam.getStudentIds)).toEqual([
+      expect(teamRepository.remove).toHaveBeenCalledWith(disbandTeam.id);
+      expect(toValues(destinationTeam.studentIds)).toEqual([
         "student-20",
         "student-21",
         "student-10",

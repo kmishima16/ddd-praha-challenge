@@ -1,3 +1,5 @@
+import type { TeamName } from "../model/team/value-object/team-name";
+
 export interface IUniqueTeamService {
-  isSatisfiedBy(name: string): Promise<boolean>;
+  isSatisfiedBy(name: TeamName): Promise<boolean>;
 }

@@ -13,14 +13,14 @@ describe("Team", () => {
     const studentIds = createStudentIds(3);
     const team = Team.create(TeamName.create("TeamA"), studentIds);
 
-    expect(team.getId.value).toBeTypeOf("string");
-    expect(team.getId.value).not.toHaveLength(0);
-    expect(team.getName.value).toBe("TeamA");
-    expect(team.getStudentIds).toHaveLength(3);
-    expect(team.getStudentIds.map((id) => id.value)).toEqual(
+    expect(team.id.value).toBeTypeOf("string");
+    expect(team.id.value).not.toHaveLength(0);
+    expect(team.name.value).toBe("TeamA");
+    expect(team.studentIds).toHaveLength(3);
+    expect(team.studentIds.map((id) => id.value)).toEqual(
       studentIds.map((id) => id.value),
     );
-    expect(team.getRecommendAction()).toBeNull();
+    expect(team.recommendAction.value).toBe("NOACTION");
   });
 
   it("Teamの名称変更", () => {
@@ -29,7 +29,7 @@ describe("Team", () => {
 
     team.changeName(newName);
 
-    expect(team.getName.value).toBe("TeamB");
+    expect(team.name.value).toBe("TeamB");
   });
 
   it("Teamのメンバーが5名になると、分割のリコメンドが登録される", () => {
@@ -39,9 +39,9 @@ describe("Team", () => {
 
     team.addMember(newMember);
 
-    expect(team.getStudentIds).toHaveLength(5);
-    expect(team.getStudentIds.map((id) => id.value)).toContain(newMember.value);
-    expect(team.getRecommendAction()).toBe("SPLIT");
+    expect(team.studentIds).toHaveLength(5);
+    expect(team.studentIds.map((id) => id.value)).toContain(newMember.value);
+    expect(team.recommendAction.value).toBe("SPLIT");
   });
 
   it("Teamのメンバー削除", () => {
@@ -53,8 +53,8 @@ describe("Team", () => {
 
     team.removeMember(targetMember);
 
-    expect(team.getStudentIds).toHaveLength(1);
-    expect(team.getRecommendAction()).toBe("DISBAND");
+    expect(team.studentIds).toHaveLength(1);
+    expect(team.recommendAction.value).toBe("DISBAND");
   });
 
   it("Teamのメンバー入れ替え", () => {
@@ -67,10 +67,10 @@ describe("Team", () => {
 
     team.replaceMembers(replacementMembers);
 
-    expect(team.getStudentIds.map((id) => id.value)).toEqual(
+    expect(team.studentIds.map((id) => id.value)).toEqual(
       replacementMembers.map((id) => id.value),
     );
-    expect(team.getRecommendAction()).toBeNull();
+    expect(team.recommendAction.value).toBe("NOACTION");
   });
 
   it("Teamのメール通知判定", () => {

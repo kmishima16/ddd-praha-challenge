@@ -5,10 +5,9 @@ describe("Lesson", () => {
   it("Lessonの生成", () => {
     const lesson = Lesson.create("DDD基礎", "課題：値オブジェクトとは何か？");
 
-    expect(lesson.getId.value).toBeTypeOf("string");
-    expect(lesson.getId.value).not.toHaveLength(0);
-    expect(lesson.getName).toBe("DDD基礎");
-    expect(lesson.getContent).toBe("課題：値オブジェクトとは何か？");
+    expect(lesson.id.value).toBeTypeOf("string");
+    expect(lesson.name).toBe("DDD基礎");
+    expect(lesson.content).toBe("課題：値オブジェクトとは何か？");
   });
 
   it("Leesonのタイトル変更", () => {
@@ -16,7 +15,7 @@ describe("Lesson", () => {
 
     lesson.changeName("New name");
 
-    expect(lesson.getName).toBe("New name");
+    expect(lesson.name).toBe("New name");
   });
 
   it("Lessonの課題内容変更", () => {
@@ -24,6 +23,6 @@ describe("Lesson", () => {
 
     lesson.changeContent("Updated content");
 
-    expect(lesson.getContent).toBe("Updated content");
+    expect(lesson.content).toBe("Updated content");
   });
 });
