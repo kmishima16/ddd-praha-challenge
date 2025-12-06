@@ -23,7 +23,7 @@ export class TeamManagementService {
       throw new Error(`Team (${input.splitTeamId}) not found`);
     }
 
-    const members = splitTeam.getStudentIds;
+    const members = splitTeam.studentIds;
     if (members.length !== TeamManagementService.SPLIT_REQUIRED_MEMBERS) {
       throw new Error(
         "Team does not have the required number of members to split",
@@ -61,12 +61,12 @@ export class TeamManagementService {
     }
 
     const mergedMembers = [
-      ...destinationTeam.getStudentIds,
-      ...disbandTeam.getStudentIds,
+      ...destinationTeam.studentIds,
+      ...disbandTeam.studentIds,
     ];
     destinationTeam.replaceMembers(mergedMembers);
 
     await this.teamRepository.save(destinationTeam);
-    await this.teamRepository.remove(disbandTeam.getId);
+    await this.teamRepository.remove(disbandTeam.id);
   }
 }
