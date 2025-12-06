@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { Lesson } from "../model/lesson/lesson";
 import { StudentId } from "../model/student/value-object/student-id";
-import type { ILessonRepository } from "../repository/lesson-repository";
 import type { ILessonProgressRepository } from "../repository/lesson-progress-repository";
+import type { ILessonRepository } from "../repository/lesson-repository";
 import { AssignAllLessonsToNewStudentService } from "./assign-all-lessons-to-new-student.service";
 
 const createService = () => {

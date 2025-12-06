@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { Team } from "../model/team/team";
 import { StudentId } from "../model/student/value-object/student-id";
+import { Team } from "../model/team/team";
 import { TeamName } from "../model/team/value-object/team-name";
 import type { ITeamRepository } from "../repository/team-repository";
 import { TeamManagementService } from "./team-management.service";

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { LessonId } from "../lesson/value-object/lesson-id";
-import { LessonProgress } from "./lesson-progress";
 import { StudentId } from "../student/value-object/student-id";
+import { LessonProgress } from "./lesson-progress";
 
 const createLessonProgress = () => {
   const studentId = StudentId.reconstruct("student-1");
