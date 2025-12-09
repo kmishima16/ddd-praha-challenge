@@ -22,16 +22,12 @@ export class Student extends Entity<StudentId> {
     this.#enrollmentStatus = props.enrollmentStatus;
   }
 
-  public static create(
-    name: string,
-    mailAddress: MailAddress,
-    enrollmentStatus: EnrollmentStatus,
-  ): Student {
+  public static create(name: string, mailAddress: MailAddress): Student {
     return new Student({
       id: StudentId.createNew(),
       name: name,
       mailAddress: mailAddress,
-      enrollmentStatus: enrollmentStatus,
+      enrollmentStatus: "ENROLLED",
     });
   }
 
