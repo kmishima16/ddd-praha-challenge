@@ -10,4 +10,5 @@ export interface ITeamRepository {
   save(team: Team): Promise<void>;
   saveMany(teams: Team[]): Promise<void>;
   remove(id: TeamId): Promise<void>;
+  delete(id: TeamId): Promise<void>;
 }
