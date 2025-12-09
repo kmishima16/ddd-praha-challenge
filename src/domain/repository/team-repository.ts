@@ -4,6 +4,7 @@ import type { TeamId } from "../model/team/value-object/team-id";
 export interface ITeamRepository {
   findById(id: TeamId): Promise<Team | null>;
   findTeamByMinMemberCount(exceptTeamId?: TeamId): Promise<Team | null>;
+  findAll(): Promise<Team[]>;
   save(team: Team): Promise<void>;
   saveMany(teams: Team[]): Promise<void>;
   remove(id: TeamId): Promise<void>;
