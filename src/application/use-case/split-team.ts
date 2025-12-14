@@ -30,7 +30,6 @@ export class SplitTeamUseCase {
       throw new Error(`Team (${input.teamId}) not found`);
     }
 
-    // TODO: 定数でチェックせず、値オブジェクト側でチェックする
     if (splitTeam.recommendAction.value !== "SPLIT") {
       throw new Error(`Team (${input.teamId}) is not eligible for splitting`);
     }
