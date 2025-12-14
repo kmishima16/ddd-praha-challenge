@@ -3,11 +3,7 @@ import { Student } from "./student";
 import { MailAddress } from "./value-object/mail-address";
 
 const createStudent = () =>
-  Student.create(
-    "test 太郎",
-    MailAddress.create("taro@example.com"),
-    "ENROLLED",
-  );
+  Student.create("test 太郎", MailAddress.create("taro@example.com"));
 
 describe("Student", () => {
   it("Studentの生成", () => {
