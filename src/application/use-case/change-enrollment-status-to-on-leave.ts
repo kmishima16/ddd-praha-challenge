@@ -27,14 +27,16 @@ export class ChangeEnrollmentStatusToOnLeaveUseCase {
       throw new Error("student not found");
     }
 
+    const joinedTeam = await this.teamRepository.findTeamByStudentId(studentId);
+    if (!joinedTeam) {
+      throw new Error(`joined team for student ${studentId.value} not found`);
+    }
+
     student.changeEnrollmentStatus("ON_LEAVE");
     const updatedStudent = await this.studentRepository.save(student);
 
-    const joinedTeam = await this.teamRepository.findTeamByStudentId(studentId);
-    if (joinedTeam) {
-      joinedTeam.removeMember(studentId);
-      await this.teamRepository.save(joinedTeam);
-    }
+    joinedTeam.removeMember(studentId);
+    await this.teamRepository.save(joinedTeam);
 
     return {
       id: updatedStudent.id.value,
