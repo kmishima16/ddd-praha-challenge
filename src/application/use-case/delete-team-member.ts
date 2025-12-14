@@ -22,6 +22,7 @@ export class DeleteTeamMemberUseCase {
     }
 
     joinedTeam.removeMember(studentId);
+
     await this.teamRepository.save(joinedTeam);
 
     return {

@@ -34,13 +34,15 @@ export class CreateStudentUseCase {
       throw new Error("mail address already exists");
     }
 
-    const student = Student.create(input.name, mailAddress);
-    await this.studentRepository.save(student);
-
     const lessons = await this.lessonRepository.findAll();
+
+    const student = Student.create(input.name, mailAddress);
+
     const lessonProgresses = lessons.map((lesson) => {
       return LessonProgress.create(student.id, lesson.id);
     });
+
+    await this.studentRepository.save(student);
     await this.lessonProgressRepository.saveAll(lessonProgresses);
 
     return {

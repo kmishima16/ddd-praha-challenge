@@ -21,7 +21,6 @@ export class DisbandTeamUseCase {
       throw new Error(`Team (${input.teamId}) not found`);
     }
 
-    // TODO: 定数でチェックせず、値オブジェクト側でチェックする
     if (disbandTeam.recommendAction.value !== "DISBAND") {
       throw new Error(`Team (${input.teamId}) is not eligible for disbanding`);
     }

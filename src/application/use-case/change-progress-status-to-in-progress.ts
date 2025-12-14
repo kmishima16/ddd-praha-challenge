@@ -29,8 +29,15 @@ export class ChangeProgressStatusToInProgressUseCase {
       throw new Error("lesson progress not found");
     }
 
-    // TODO: レビュー待ち→進行中に差し戻しする処理の遷移が実装できていない
-    lessonProgress.start();
+    if (lessonProgress.status.value === "NOT_STARTED") {
+      lessonProgress.start();
+    } else if (lessonProgress.status.value === "IN_REVIEW") {
+      lessonProgress.reject();
+    } else {
+      throw new Error(
+        `Cannot change status to IN_PROGRESS from ${lessonProgress.status.value}`,
+      );
+    }
 
     const updatedProgress =
       await this.lessonProgressRepository.save(lessonProgress);
