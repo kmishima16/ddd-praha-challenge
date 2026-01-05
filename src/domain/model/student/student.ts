@@ -24,7 +24,7 @@ export class Student extends Entity<StudentId> {
 
   public static create(name: string, mailAddress: MailAddress): Student {
     return new Student({
-      id: StudentId.createNew(),
+      id: StudentId.create(),
       name: name,
       mailAddress: mailAddress,
       enrollmentStatus: "ENROLLED",

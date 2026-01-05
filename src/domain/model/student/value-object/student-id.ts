@@ -10,7 +10,7 @@ export class StudentId extends ValueObject<StudentIdProps> {
     super(props);
   }
 
-  public static createNew(): StudentId {
+  public static create(): StudentId {
     return new StudentId({ value: ulid() });
   }
 
