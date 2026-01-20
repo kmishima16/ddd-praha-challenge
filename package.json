@@ -17,7 +17,8 @@
     "type-check": "tsc --pretty --noEmit",
     "migration:generate": "drizzle-kit generate",
     "migration:apply": "drizzle-kit migrate",
-    "migration:drop": "drizzle-kit drop"
+    "migration:drop": "drizzle-kit drop",
+    "seed": "vite-node src/libs/drizzle/seed.ts"
   },
   "dependencies": {
     "@hono/node-server": "1.19.6",

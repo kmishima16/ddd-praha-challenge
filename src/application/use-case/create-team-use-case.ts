@@ -1,6 +1,6 @@
+import { StudentId } from "../../domain/model/student/value-object/student-id";
 import { Team } from "../../domain/model/team/team";
 import { TeamName } from "../../domain/model/team/value-object/team-name";
-import { StudentId } from "../../domain/model/student/value-object/student-id";
 import type { ITeamRepository } from "../../domain/repository/team-repository";
 import type { IUniqueTeamService } from "../../domain/specification/unique-team-service";
 

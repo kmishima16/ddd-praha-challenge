@@ -31,6 +31,10 @@ export class Student extends Entity<StudentId> {
     });
   }
 
+  public static reconstruct(props: StudentProps): Student {
+    return new Student(props);
+  }
+
   get name(): string {
     return this.#name;
   }
