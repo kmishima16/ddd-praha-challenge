@@ -1,10 +1,10 @@
+import { LessonProgress } from "../../domain/model/lesson-progress/lesson-progress";
 import { Student } from "../../domain/model/student/student";
 import { MailAddress } from "../../domain/model/student/value-object/mail-address";
+import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
+import type { ILessonRepository } from "../../domain/repository/lesson-repository";
 import type { IStudentRepository } from "../../domain/repository/student-repository";
 import type { IUniqueStudentService } from "../../domain/specification/unique-student-service";
-import type { ILessonRepository } from "../../domain/repository/lesson-repository";
-import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
-import { LessonProgress } from "../../domain/model/lesson-progress/lesson-progress";
 import { MailAddressAlreadyExistsError } from "./errors/mail-address-already-exists-error";
 
 export type CreateStudentUseCaseInput = {

@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import type {
   IStudentListQueryService,
   StudentListQueryServicePayload,
@@ -6,7 +7,6 @@ import type { Database } from "../../libs/drizzle/get-database";
 import { students } from "../../libs/drizzle/schema";
 import { users } from "../../libs/drizzle/schema";
 import { studentStatus } from "../../libs/drizzle/schema";
-import { eq } from "drizzle-orm";
 
 export class PostgresqlStudentListQueryService
   implements IStudentListQueryService

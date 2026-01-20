@@ -5,7 +5,9 @@ import type { ILessonCategoryRepository } from "../../domain/repository/lesson-c
 import type { Database } from "../../libs/drizzle/get-database";
 import { lessonCategories } from "../../libs/drizzle/schema";
 
-export class PostgresqlLessonCategoryRepository implements ILessonCategoryRepository {
+export class PostgresqlLessonCategoryRepository
+  implements ILessonCategoryRepository
+{
   public constructor(private readonly database: Database) {}
 
   public async save(lessonCategory: LessonCategory): Promise<LessonCategory> {
@@ -26,7 +28,9 @@ export class PostgresqlLessonCategoryRepository implements ILessonCategoryReposi
     return lessonCategory;
   }
 
-  public async findById(id: LessonCategoryId): Promise<LessonCategory | undefined> {
+  public async findById(
+    id: LessonCategoryId,
+  ): Promise<LessonCategory | undefined> {
     const rows = await this.database
       .select({
         id: lessonCategories.id,
@@ -39,7 +43,10 @@ export class PostgresqlLessonCategoryRepository implements ILessonCategoryReposi
       return undefined;
     }
 
-    const row = rows[0]!;
+    const row = rows[0];
+    if (!row) {
+      throw new Error(`LessonCategory not found: ${id.value}`);
+    }
     return LessonCategory.reconstruct({
       id: LessonCategoryId.reconstruct(row.id),
       name: row.name,

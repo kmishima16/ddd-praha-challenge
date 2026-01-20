@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { Student } from "../../domain/model/student/student";
-import { EnrollmentStatus } from "../../domain/model/student/value-object/enrollment-status";
+import type { EnrollmentStatus } from "../../domain/model/student/value-object/enrollment-status";
 import { MailAddress } from "../../domain/model/student/value-object/mail-address";
 import { StudentId } from "../../domain/model/student/value-object/student-id";
 import type { IStudentRepository } from "../../domain/repository/student-repository";

@@ -1,11 +1,11 @@
 import {
+  index,
   pgTable,
-  varchar,
+  primaryKey,
   text,
   timestamp,
-  index,
-  primaryKey,
   uniqueIndex,
+  varchar,
 } from "drizzle-orm/pg-core";
 
 /* ------------------------------------------------------
@@ -22,12 +22,8 @@ export const users = pgTable(
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },
   (table) => {
-    return [
-      uniqueIndex("users_mail_address_unique").on(
-        table.mailAddress
-      ),
-    ];
-  }
+    return [uniqueIndex("users_mail_address_unique").on(table.mailAddress)];
+  },
 );
 
 /* ------------------------------------------------------
@@ -43,16 +39,13 @@ export const studentStatus = pgTable(
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },
   (table) => {
-    return [
-      uniqueIndex("student_status_name_unique").on(table.name),
-    ];
-  }
+    return [uniqueIndex("student_status_name_unique").on(table.name)];
+  },
 );
 
 /* ------------------------------------------------------
  * Teams
  * ------------------------------------------------------ */
-
 
 export const teams = pgTable(
   "teams",
@@ -63,10 +56,8 @@ export const teams = pgTable(
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },
   (table) => {
-    return [
-      uniqueIndex("teams_name_unique").on(table.name),
-    ];
-  }
+    return [uniqueIndex("teams_name_unique").on(table.name)];
+  },
 );
 
 /* ------------------------------------------------------
@@ -89,11 +80,9 @@ export const students = pgTable(
   (table) => {
     return [
       index("students_team_id_idx").on(table.teamId),
-      index("students_student_status_id_idx").on(
-        table.studentStatusId
-      ),
+      index("students_student_status_id_idx").on(table.studentStatusId),
     ];
-  }
+  },
 );
 
 /* ------------------------------------------------------
@@ -109,10 +98,8 @@ export const lessonCategories = pgTable(
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },
   (table) => {
-    return [
-      uniqueIndex("lesson_categories_name_unique").on(table.name),
-    ];
-  }
+    return [uniqueIndex("lesson_categories_name_unique").on(table.name)];
+  },
 );
 
 /* ------------------------------------------------------
@@ -132,12 +119,8 @@ export const lessons = pgTable(
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },
   (table) => {
-    return [
-      index(
-        "lessons_lesson_category_id_idx"
-      ).on(table.lessonCategoryId),
-    ];
-  }
+    return [index("lessons_lesson_category_id_idx").on(table.lessonCategoryId)];
+  },
 );
 
 /* ------------------------------------------------------
@@ -153,10 +136,8 @@ export const taskStatus = pgTable(
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },
   (table) => {
-    return [
-      uniqueIndex("task_status_name_unique").on(table.name),
-    ];
-  }
+    return [uniqueIndex("task_status_name_unique").on(table.name)];
+  },
 );
 
 /* ------------------------------------------------------
@@ -183,5 +164,5 @@ export const studentTasks = pgTable(
       primaryKey({ columns: [table.studentId, table.lessonId] }),
       index("student_tasks_lesson_id_idx").on(table.lessonId),
     ];
-  }
+  },
 );

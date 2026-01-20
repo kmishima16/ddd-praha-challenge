@@ -1,5 +1,5 @@
 import { Entity } from "../__shared__/entity";
-import { LessonCategoryId } from "../lesson-category/value-object/lesson-category-id";
+import type { LessonCategoryId } from "../lesson-category/value-object/lesson-category-id";
 import { LessonId } from "./value-object/lesson-id";
 
 interface LessonProps {
@@ -22,7 +22,11 @@ export class Lesson extends Entity<LessonId> {
     this.#content = props.content;
   }
 
-  public static create(lessonCategoryId: LessonCategoryId, name: string, content: string): Lesson {
+  public static create(
+    lessonCategoryId: LessonCategoryId,
+    name: string,
+    content: string,
+  ): Lesson {
     return new Lesson({
       id: LessonId.create(),
       lessonCategoryId: lessonCategoryId,

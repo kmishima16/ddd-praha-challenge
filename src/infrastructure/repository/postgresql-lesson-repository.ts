@@ -1,5 +1,5 @@
-import { Lesson } from "../../domain/model/lesson/lesson";
 import { LessonCategoryId } from "../../domain/model/lesson-category/value-object/lesson-category-id";
+import { Lesson } from "../../domain/model/lesson/lesson";
 import { LessonId } from "../../domain/model/lesson/value-object/lesson-id";
 import type { ILessonRepository } from "../../domain/repository/lesson-repository";
 import type { Database } from "../../libs/drizzle/get-database";
