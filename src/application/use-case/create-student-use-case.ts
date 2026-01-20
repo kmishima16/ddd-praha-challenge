@@ -5,6 +5,7 @@ import type { IUniqueStudentService } from "../../domain/specification/unique-st
 import type { ILessonRepository } from "../../domain/repository/lesson-repository";
 import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
 import { LessonProgress } from "../../domain/model/lesson-progress/lesson-progress";
+import { MailAddressAlreadyExistsError } from "./errors/mail-address-already-exists-error";
 
 export type CreateStudentUseCaseInput = {
   name: string;
@@ -31,7 +32,7 @@ export class CreateStudentUseCase {
     const mailAddress = MailAddress.create(input.mailAddress);
     const isUnique = await this.uniqueStudentService.isSatisfiedBy(mailAddress);
     if (!isUnique) {
-      throw new Error("mail address already exists");
+      throw new MailAddressAlreadyExistsError();
     }
 
     const lessons = await this.lessonRepository.findAll();

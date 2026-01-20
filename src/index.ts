@@ -1,8 +1,13 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import "dotenv/config";
+import { createStudentController } from "./presentation/student/create-student-controller";
+import { getStudentListController } from "./presentation/student/get-student-list-controller";
 
 const app = new Hono();
+
+app.route("/", createStudentController);
+app.route("/", getStudentListController);
 
 const port = 3000;
 console.log(`Server is running on port ${port}`);

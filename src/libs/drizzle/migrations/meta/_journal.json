@@ -8,6 +8,13 @@
       "when": 1768921603218,
       "tag": "0000_outgoing_kate_bishop",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768926460677,
+      "tag": "0001_bent_sprite",
+      "breakpoints": true
     }
   ]
 }

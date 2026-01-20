@@ -35,6 +35,10 @@ export class LessonProgress extends Entity<LessonProgressId> {
     });
   }
 
+  public static reconstruct(props: LessonProgressProps): LessonProgress {
+    return new LessonProgress(props);
+  }
+
   get studentId(): StudentId {
     return this.#studentId;
   }

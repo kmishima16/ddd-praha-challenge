@@ -20,6 +20,25 @@
 - DBのマイグレーションファイル（`./src/libs/drizzle/migrations/*`）を削除したい場合は、`pnpm run migration:drop`で削除してください。
   - `drizzle-kit`がマイグレーションの整合性を取れなくなるため、手作業で削除しないでください。
 
+## APIの使い方
+
+### 学生の登録
+
+```bash
+curl -X POST http://localhost:3000/students/new \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "山田太郎",
+    "mailAddress": "yamada.taro@example.com"
+  }'
+```
+
+### 学生一覧の取得
+
+```bash
+curl http://localhost:3000/students
+```
+
 ## 注意
 
 このリポジトリはあくまで環境構築の手間を省くためのリポジトリです。Value Objectがない・Nominal Typingができていない（Taskと同じプロパティを持つクラスだと型が等価になってしまう）などなど、厳密な実装は全然できておりません。あるべき姿を模索しつつ実装を進めてください！

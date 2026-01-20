@@ -97,11 +97,11 @@ export const students = pgTable(
 );
 
 /* ------------------------------------------------------
- * Challenge Categories
+ * lesson Categories
  * ------------------------------------------------------ */
 
-export const challengeCategories = pgTable(
-  "challenge_categories",
+export const lessonCategories = pgTable(
+  "lesson_categories",
   {
     id: varchar("id", { length: 26 }).primaryKey(),
     name: varchar("name", { length: 255 }).notNull(),
@@ -110,22 +110,22 @@ export const challengeCategories = pgTable(
   },
   (table) => {
     return [
-      uniqueIndex("challenge_categories_name_unique").on(table.name),
+      uniqueIndex("lesson_categories_name_unique").on(table.name),
     ];
   }
 );
 
 /* ------------------------------------------------------
- * Challenges
+ * lessons
  * ------------------------------------------------------ */
 
-export const challenges = pgTable(
-  "challenges",
+export const lessons = pgTable(
+  "lessons",
   {
     id: varchar("id", { length: 26 }).primaryKey(),
-    challengeCategoryId: varchar("challenge_category_id", { length: 26 })
+    lessonCategoryId: varchar("lesson_category_id", { length: 26 })
       .notNull()
-      .references(() => challengeCategories.id),
+      .references(() => lessonCategories.id),
     name: varchar("name", { length: 255 }).notNull(),
     content: text("content").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -134,8 +134,8 @@ export const challenges = pgTable(
   (table) => {
     return [
       index(
-        "challenges_challenge_category_id_idx"
-      ).on(table.challengeCategoryId),
+        "lessons_lesson_category_id_idx"
+      ).on(table.lessonCategoryId),
     ];
   }
 );
@@ -169,9 +169,9 @@ export const studentTasks = pgTable(
     studentId: varchar("student_id", { length: 26 })
       .notNull()
       .references(() => students.userId),
-    challengeId: varchar("challenge_id", { length: 26 })
+    lessonId: varchar("lesson_id", { length: 26 })
       .notNull()
-      .references(() => challenges.id),
+      .references(() => lessons.id),
     taskStatusId: varchar("task_status_id", { length: 26 })
       .notNull()
       .references(() => taskStatus.id),
@@ -180,8 +180,8 @@ export const studentTasks = pgTable(
   },
   (table) => {
     return [
-      primaryKey({ columns: [table.studentId, table.challengeId] }),
-      index("student_tasks_challenge_id_idx").on(table.challengeId),
+      primaryKey({ columns: [table.studentId, table.lessonId] }),
+      index("student_tasks_lesson_id_idx").on(table.lessonId),
     ];
   }
 );
