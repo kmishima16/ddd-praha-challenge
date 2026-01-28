@@ -1,11 +1,13 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import "dotenv/config";
+import { createLessonController } from "./presentation/lesson/create-lesson-controller";
 import { createStudentController } from "./presentation/student/create-student-controller";
 import { getStudentListController } from "./presentation/student/get-student-list-controller";
 
 const app = new Hono();
 
+app.route("/", createLessonController);
 app.route("/", createStudentController);
 app.route("/", getStudentListController);
 
