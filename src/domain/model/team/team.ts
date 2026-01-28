@@ -36,6 +36,22 @@ export class Team extends Entity<TeamId> {
     return team;
   }
 
+  public static reconstruct(
+    id: TeamId,
+    name: TeamName,
+    studentIds: StudentId[],
+  ): Team {
+    const recommendAction = RecommendAction.determineRecommendAction(
+      studentIds.length,
+    );
+    return new Team({
+      id,
+      name,
+      studentIds,
+      recommendAction,
+    });
+  }
+
   get name(): TeamName {
     return this.#name;
   }
