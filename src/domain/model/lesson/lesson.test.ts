@@ -5,7 +5,11 @@ import { Lesson } from "./lesson";
 describe("Lesson", () => {
   it("Lessonの生成", () => {
     const lessonCategoryId = LessonCategoryId.create();
-    const lesson = Lesson.create(lessonCategoryId, "DDD基礎", "課題:値オブジェクトとは何か?");
+    const lesson = Lesson.create(
+      lessonCategoryId,
+      "DDD基礎",
+      "課題:値オブジェクトとは何か?",
+    );
 
     expect(lesson.id.value).toBeTypeOf("string");
     expect(lesson.lessonCategoryId.equals(lessonCategoryId)).toBe(true);
