@@ -5,7 +5,7 @@
 set -e
 
 # 設定
-DB_CONTAINER="ddd-praha-challenge-database-1"
+DB_CONTAINER="database"
 DB_USER="postgres"
 DB_NAME="database"
 

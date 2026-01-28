@@ -32,8 +32,14 @@ createTeamController.post(
   async (context) => {
     const body = await context.req.json();
 
+    // memberIdsが未定義の場合は空配列にする
+    const input = {
+      name: body.name,
+      memberIds: body.memberIds ?? [],
+    };
+
     try {
-      const payload = await context.var.createTeamUseCase.invoke(body);
+      const payload = await context.var.createTeamUseCase.invoke(input);
       return context.json(payload, 201);
     } catch (error) {
       if (error instanceof Error) {
