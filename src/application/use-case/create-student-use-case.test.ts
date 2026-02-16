@@ -3,8 +3,7 @@ import type { ILessonProgressRepository } from "../../domain/repository/lesson-p
 import type { ILessonRepository } from "../../domain/repository/lesson-repository";
 import type { IStudentRepository } from "../../domain/repository/student-repository";
 import type { IUniqueStudentService } from "../../domain/specification/unique-student-service";
-import { CreateStudentUseCase } from "./create-student-use-case";
-import { MailAddressAlreadyExistsError } from "./errors/mail-address-already-exists-error";
+import { CreateStudentUseCase, MailAddressAlreadyExistsError } from "./create-student-use-case";
 
 describe("CreateStudentUseCase", () => {
   it("create student", async () => {

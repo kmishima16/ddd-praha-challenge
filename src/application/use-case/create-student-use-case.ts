@@ -5,7 +5,13 @@ import type { ILessonProgressRepository } from "../../domain/repository/lesson-p
 import type { ILessonRepository } from "../../domain/repository/lesson-repository";
 import type { IStudentRepository } from "../../domain/repository/student-repository";
 import type { IUniqueStudentService } from "../../domain/specification/unique-student-service";
-import { MailAddressAlreadyExistsError } from "./errors/mail-address-already-exists-error";
+
+export class MailAddressAlreadyExistsError extends Error {
+  readonly code = "MAIL_ADDRESS_ALREADY_EXISTS";
+  constructor() {
+    super("mail address already exists");
+  }
+}
 
 export type CreateStudentUseCaseInput = {
   name: string;
