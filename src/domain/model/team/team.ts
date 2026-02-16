@@ -72,7 +72,7 @@ export class Team extends Entity<TeamId> {
     if (this.#recommendAction.isSplit()) {
       throw new Error("Cannot add member to a team recommended for splitting");
     }
-    if (this.#studentIds.includes(studentId)) {
+    if (this.#studentIds.some((id) => id.equals(studentId))) {
       throw new Error("User is already a member of the team");
     }
     this.#studentIds.push(studentId);
@@ -85,10 +85,12 @@ export class Team extends Entity<TeamId> {
         "Cannot remove member from a team recommended for disbanding",
       );
     }
-    if (!this.#studentIds.includes(studentId)) {
+    if (!this.#studentIds.some((id) => id.equals(studentId))) {
       throw new Error("User is not a member of the team");
     }
-    this.#studentIds = this.#studentIds.filter((id) => id !== studentId);
+    this.#studentIds = this.#studentIds.filter(
+      (id) => !id.equals(studentId),
+    );
     this.updateRecommendAction();
   }
 
@@ -96,7 +98,10 @@ export class Team extends Entity<TeamId> {
     if (studentIds.length === 0) {
       throw new Error("Team must have at least one member");
     }
-    if (studentIds.length !== new Set(studentIds).size) {
+    const isDuplicated = studentIds.some((id, idx) =>
+      studentIds.slice(idx + 1).some((other) => other.equals(id)),
+    );
+    if (isDuplicated) {
       throw new Error("Team members must be unique");
     }
     this.#studentIds = [...studentIds];

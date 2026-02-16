@@ -11,7 +11,7 @@ describe("DeleteTeamMemberUseCase", () => {
     const studentId = StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
     const teamId = TeamId.reconstruct("01JKXYZ1234567890ABCDEFGHJ");
 
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("test team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("test"), [
       studentId,
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),

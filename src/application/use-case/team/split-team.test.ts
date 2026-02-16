@@ -12,7 +12,7 @@ describe("SplitTeamUseCase", () => {
     const teamId = TeamId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
 
     // 5人のチーム（分割対象）
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("split team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("splitTeam"), [
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHM"),
@@ -43,7 +43,7 @@ describe("SplitTeamUseCase", () => {
     const result = await useCase.invoke({
       teamId: teamId.value,
       memberIds: [],
-      newTeamName: "new team",
+      newTeamName: "newTeam",
     });
 
     expect(result.teamIds).toHaveLength(2);
@@ -84,7 +84,7 @@ describe("SplitTeamUseCase", () => {
   it("throw error if team is not eligible for splitting", async () => {
     const teamId = TeamId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
     // 3人のチーム（分割対象外）
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("normal team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("normalTeam"), [
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHM"),
@@ -121,7 +121,7 @@ describe("SplitTeamUseCase", () => {
 
   it("throw error if new team name already exists", async () => {
     const teamId = TeamId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("split team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("splitTeam"), [
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHM"),
@@ -153,7 +153,7 @@ describe("SplitTeamUseCase", () => {
       useCase.invoke({
         teamId: teamId.value,
         memberIds: [],
-        newTeamName: "duplicate team",
+        newTeamName: "duplicateTeam",
       }),
     ).rejects.toThrow("New team name already exists");
   });

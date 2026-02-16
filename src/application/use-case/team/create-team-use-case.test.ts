@@ -25,11 +25,11 @@ describe("CreateTeamUseCase", () => {
     );
 
     const result = await useCase.invoke({
-      name: "test team",
+      name: "testTeam",
       memberIds: ["01JKXYZ1234567890ABCDEFGHI", "01JKXYZ1234567890ABCDEFGHJ"],
     });
 
-    expect(result.name).toBe("test team");
+    expect(result.name).toBe("testTeam");
     expect(result.memberIds).toHaveLength(2);
     expect(result.id).toBeDefined();
     expect(mockTeamRepository.save).toHaveBeenCalledOnce();
@@ -57,7 +57,7 @@ describe("CreateTeamUseCase", () => {
 
     await expect(
       useCase.invoke({
-        name: "duplicate team",
+        name: "duplicateTeam",
         memberIds: ["01JKXYZ1234567890ABCDEFGHI"],
       }),
     ).rejects.toThrow("team name already exists");

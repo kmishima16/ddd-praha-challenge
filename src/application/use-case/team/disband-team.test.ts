@@ -14,14 +14,14 @@ describe("DisbandTeamUseCase", () => {
     // チームメンバーが1人のチーム（解散対象）
     const mockDisbandTeam = Team.reconstruct(
       disbandTeamId,
-      TeamName.create("disband team"),
+      TeamName.create("disbandTeam"),
       [StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK")],
     );
 
     // チームメンバーが3人のチーム（統合先）
     const mockDestinationTeam = Team.reconstruct(
       destinationTeamId,
-      TeamName.create("destination team"),
+      TeamName.create("destinationTeam"),
       [
         StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),
         StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHM"),
@@ -76,7 +76,7 @@ describe("DisbandTeamUseCase", () => {
   it("throw error if team is not eligible for disbanding", async () => {
     const teamId = TeamId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
     // チームメンバーが3人のチーム（解散対象外）
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("normal team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("normalTeam"), [
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHM"),
@@ -104,7 +104,7 @@ describe("DisbandTeamUseCase", () => {
 
   it("throw error if no destination team available", async () => {
     const teamId = TeamId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("disband team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("disbandTeam"), [
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
     ]);
 

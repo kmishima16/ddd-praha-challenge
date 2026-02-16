@@ -10,6 +10,8 @@ describe("ChangeProgressStatusToCompletedUseCase", () => {
     const studentId = StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
     const lessonId = LessonId.reconstruct("01JKXYZ1234567890ABCDEFGHJ");
     const mockLessonProgress = LessonProgress.create(studentId, lessonId);
+    mockLessonProgress.start();
+    mockLessonProgress.submit();
 
     const mockLessonProgressRepository: ILessonProgressRepository = {
       saveAll: vi.fn(),

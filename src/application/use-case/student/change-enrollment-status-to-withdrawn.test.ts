@@ -21,7 +21,7 @@ describe("ChangeEnrollmentStatusToWithdrawnUseCase", () => {
       enrollmentStatus: "ENROLLED",
     });
 
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("test team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("testTeam"), [
       studentId,
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),
