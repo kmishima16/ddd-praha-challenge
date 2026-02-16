@@ -1,7 +1,7 @@
-import { LessonProgress } from "../../domain/model/lesson-progress/lesson-progress";
-import { LessonId } from "../../domain/model/lesson/value-object/lesson-id";
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
+import { LessonProgress } from "../../../domain/model/lesson-progress/lesson-progress";
+import { LessonId } from "../../../domain/model/lesson/value-object/lesson-id";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import type { ILessonProgressRepository } from "../../../domain/repository/lesson-progress-repository";
 
 export type CreateLessonProgressUseCaseInput = {
   studentId: string;

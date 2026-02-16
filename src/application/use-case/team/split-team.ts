@@ -1,8 +1,8 @@
-import { Team } from "../../domain/model/team/team";
-import { TeamId } from "../../domain/model/team/value-object/team-id";
-import { TeamName } from "../../domain/model/team/value-object/team-name";
-import type { ITeamRepository } from "../../domain/repository/team-repository";
-import type { IUniqueTeamService } from "../../domain/specification/unique-team-service";
+import { Team } from "../../../domain/model/team/team";
+import { TeamId } from "../../../domain/model/team/value-object/team-id";
+import { TeamName } from "../../../domain/model/team/value-object/team-name";
+import type { ITeamRepository } from "../../../domain/repository/team-repository";
+import type { IUniqueTeamService } from "../../../domain/specification/unique-team-service";
 
 export type SplitTeamUseCaseInput = {
   teamId: string;

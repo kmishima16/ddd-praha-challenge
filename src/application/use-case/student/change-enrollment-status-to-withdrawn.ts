@@ -1,6 +1,6 @@
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import type { IStudentRepository } from "../../domain/repository/student-repository";
-import type { ITeamRepository } from "../../domain/repository/team-repository";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import type { IStudentRepository } from "../../../domain/repository/student-repository";
+import type { ITeamRepository } from "../../../domain/repository/team-repository";
 
 export type ChangeEnrollmentStatusToWithdrawnUseCaseInput = {
   studentId: string;

@@ -1,5 +1,5 @@
-import { TeamId } from "../../domain/model/team/value-object/team-id";
-import type { ITeamRepository } from "../../domain/repository/team-repository";
+import { TeamId } from "../../../domain/model/team/value-object/team-id";
+import type { ITeamRepository } from "../../../domain/repository/team-repository";
 
 export type DisbandTeamUseCaseInput = {
   teamId: string;

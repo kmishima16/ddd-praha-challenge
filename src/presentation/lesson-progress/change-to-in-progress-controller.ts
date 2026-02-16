@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
-import { ChangeProgressStatusToInProgressUseCase } from "../../application/use-case/change-progress-status-to-in-progress";
+import { ChangeProgressStatusToInProgressUseCase } from "../../application/use-case/lesson-progress/change-progress-status-to-in-progress";
 import { PostgresqlLessonProgressRepository } from "../../infrastructure/repository/postgresql-lesson-progress-repository";
 import { getDatabase } from "../../libs/drizzle/get-database";
 

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
-import type { ILessonRepository } from "../../domain/repository/lesson-repository";
-import type { IStudentRepository } from "../../domain/repository/student-repository";
-import type { IUniqueStudentService } from "../../domain/specification/unique-student-service";
+import type { ILessonProgressRepository } from "../../../domain/repository/lesson-progress-repository";
+import type { ILessonRepository } from "../../../domain/repository/lesson-repository";
+import type { IStudentRepository } from "../../../domain/repository/student-repository";
+import type { IUniqueStudentService } from "../../../domain/specification/unique-student-service";
 import { CreateStudentUseCase, MailAddressAlreadyExistsError } from "./create-student-use-case";
 
 describe("CreateStudentUseCase", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
+import type { ILessonProgressRepository } from "../../../domain/repository/lesson-progress-repository";
 import { CreateLessonProgressUseCase } from "./create-lesson-progress-use-case";
 
 describe("CreateLessonProgressUseCase", () => {

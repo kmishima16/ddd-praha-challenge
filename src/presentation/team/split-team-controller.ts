@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
-import { SplitTeamUseCase } from "../../application/use-case/split-team";
+import { SplitTeamUseCase } from "../../application/use-case/team/split-team";
 import { PostgresqlTeamRepository } from "../../infrastructure/repository/postgresql-team-repository";
 import { PostgresqlUniqueTeamService } from "../../infrastructure/specification/postgresql-unique-team-service";
 import { getDatabase } from "../../libs/drizzle/get-database";

@@ -1,5 +1,5 @@
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import type { ITeamRepository } from "../../domain/repository/team-repository";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import type { ITeamRepository } from "../../../domain/repository/team-repository";
 
 export type DeleteTeamMemberUseCaseInput = {
   studentId: string;

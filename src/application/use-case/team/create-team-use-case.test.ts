@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ITeamRepository } from "../../domain/repository/team-repository";
-import type { IUniqueTeamService } from "../../domain/specification/unique-team-service";
+import type { ITeamRepository } from "../../../domain/repository/team-repository";
+import type { IUniqueTeamService } from "../../../domain/specification/unique-team-service";
 import { CreateTeamUseCase } from "./create-team-use-case";
 
 describe("CreateTeamUseCase", () => {

@@ -1,15 +1,18 @@
 import { describe, expect, it, vi } from "vitest";
-import { LessonProgress } from "../../domain/model/lesson-progress/lesson-progress";
-import { LessonId } from "../../domain/model/lesson/value-object/lesson-id";
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
-import { ChangeProgressStatusToCompletedUseCase } from "./change-progress-status-to-completed";
+import { LessonProgress } from "../../../domain/model/lesson-progress/lesson-progress";
+import { LessonId } from "../../../domain/model/lesson/value-object/lesson-id";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import type { ILessonProgressRepository } from "../../../domain/repository/lesson-progress-repository";
+import { ChangeProgressStatusToInReviewUseCase } from "./change-progress-status-to-in-review";
 
-describe("ChangeProgressStatusToCompletedUseCase", () => {
-  it("change progress status to completed", async () => {
+describe("ChangeProgressStatusToInReviewUseCase", () => {
+  it("change progress status to in review", async () => {
     const studentId = StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHI");
     const lessonId = LessonId.reconstruct("01JKXYZ1234567890ABCDEFGHJ");
     const mockLessonProgress = LessonProgress.create(studentId, lessonId);
+
+    // 先にIN_PROGRESSに変更
+    mockLessonProgress.start();
 
     const mockLessonProgressRepository: ILessonProgressRepository = {
       saveAll: vi.fn(),
@@ -17,7 +20,7 @@ describe("ChangeProgressStatusToCompletedUseCase", () => {
       findByStudentIdAndLessonId: vi.fn().mockResolvedValue(mockLessonProgress),
     };
 
-    const useCase = new ChangeProgressStatusToCompletedUseCase(
+    const useCase = new ChangeProgressStatusToInReviewUseCase(
       mockLessonProgressRepository,
     );
 
@@ -28,7 +31,7 @@ describe("ChangeProgressStatusToCompletedUseCase", () => {
 
     expect(result.studentId).toBe(studentId.value);
     expect(result.lessonId).toBe(lessonId.value);
-    expect(result.status).toBe("COMPLETED");
+    expect(result.status).toBe("IN_REVIEW");
     expect(mockLessonProgressRepository.save).toHaveBeenCalledOnce();
   });
 
@@ -39,7 +42,7 @@ describe("ChangeProgressStatusToCompletedUseCase", () => {
       findByStudentIdAndLessonId: vi.fn().mockResolvedValue(null),
     };
 
-    const useCase = new ChangeProgressStatusToCompletedUseCase(
+    const useCase = new ChangeProgressStatusToInReviewUseCase(
       mockLessonProgressRepository,
     );
 

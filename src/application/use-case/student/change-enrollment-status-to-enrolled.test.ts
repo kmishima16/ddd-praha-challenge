@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import { Student } from "../../domain/model/student/student";
-import { MailAddress } from "../../domain/model/student/value-object/mail-address";
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import type { IStudentRepository } from "../../domain/repository/student-repository";
+import { Student } from "../../../domain/model/student/student";
+import { MailAddress } from "../../../domain/model/student/value-object/mail-address";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import type { IStudentRepository } from "../../../domain/repository/student-repository";
 import { ChangeEnrollmentStatusToOnLeaveUseCase } from "./change-enrollment-status-to-enrolled";
 
 describe("ChangeEnrollmentStatusToEnrolledUseCase", () => {

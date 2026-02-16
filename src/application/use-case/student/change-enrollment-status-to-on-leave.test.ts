@@ -1,12 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
-import { Student } from "../../domain/model/student/student";
-import { MailAddress } from "../../domain/model/student/value-object/mail-address";
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import { Team } from "../../domain/model/team/team";
-import { TeamId } from "../../domain/model/team/value-object/team-id";
-import { TeamName } from "../../domain/model/team/value-object/team-name";
-import type { IStudentRepository } from "../../domain/repository/student-repository";
-import type { ITeamRepository } from "../../domain/repository/team-repository";
+import { Student } from "../../../domain/model/student/student";
+import { MailAddress } from "../../../domain/model/student/value-object/mail-address";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import { Team } from "../../../domain/model/team/team";
+import { TeamId } from "../../../domain/model/team/value-object/team-id";
+import { TeamName } from "../../../domain/model/team/value-object/team-name";
+import type { IStudentRepository } from "../../../domain/repository/student-repository";
+import type { ITeamRepository } from "../../../domain/repository/team-repository";
 import { ChangeEnrollmentStatusToOnLeaveUseCase } from "./change-enrollment-status-to-on-leave";
 
 describe("ChangeEnrollmentStatusToOnLeaveUseCase", () => {
@@ -21,7 +21,7 @@ describe("ChangeEnrollmentStatusToOnLeaveUseCase", () => {
       enrollmentStatus: "ENROLLED",
     });
 
-    const mockTeam = Team.reconstruct(teamId, TeamName.create("test team"), [
+    const mockTeam = Team.reconstruct(teamId, TeamName.create("test"), [
       studentId,
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHK"),
       StudentId.reconstruct("01JKXYZ1234567890ABCDEFGHL"),

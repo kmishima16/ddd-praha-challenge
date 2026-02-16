@@ -1,5 +1,5 @@
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import type { IStudentRepository } from "../../domain/repository/student-repository";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import type { IStudentRepository } from "../../../domain/repository/student-repository";
 
 export type ChangeEnrollmentStatusToEnrolledUseCaseInput = {
   studentId: string;

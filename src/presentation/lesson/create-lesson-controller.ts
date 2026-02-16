@@ -2,7 +2,7 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
 import { z } from "zod";
-import { CreateLessonUseCase } from "../../application/use-case/create-lesson-use-case";
+import { CreateLessonUseCase } from "../../application/use-case/lesson/create-lesson-use-case";
 import { PostgresqlLessonRepository } from "../../infrastructure/repository/postgresql-lesson-repository";
 import { getDatabase } from "../../libs/drizzle/get-database";
 

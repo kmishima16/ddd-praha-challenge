@@ -1,4 +1,4 @@
-import type { ILessonProgressRepository } from "../../domain/repository/lesson-progress-repository";
+import type { ILessonProgressRepository } from "../../../domain/repository/lesson-progress-repository";
 
 export type ChangeProgressStatusToInReviewUseCaseInput = {
   studentId: string;

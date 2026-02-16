@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
-import { DeleteTeamMemberUseCase } from "../../application/use-case/delete-team-member";
+import { DeleteTeamMemberUseCase } from "../../application/use-case/team/delete-team-member";
 import { PostgresqlTeamRepository } from "../../infrastructure/repository/postgresql-team-repository";
 import { getDatabase } from "../../libs/drizzle/get-database";
 

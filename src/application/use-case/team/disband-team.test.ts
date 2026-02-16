@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import { StudentId } from "../../domain/model/student/value-object/student-id";
-import { Team } from "../../domain/model/team/team";
-import { TeamId } from "../../domain/model/team/value-object/team-id";
-import { TeamName } from "../../domain/model/team/value-object/team-name";
-import type { ITeamRepository } from "../../domain/repository/team-repository";
+import { StudentId } from "../../../domain/model/student/value-object/student-id";
+import { Team } from "../../../domain/model/team/team";
+import { TeamId } from "../../../domain/model/team/value-object/team-id";
+import { TeamName } from "../../../domain/model/team/value-object/team-name";
+import type { ITeamRepository } from "../../../domain/repository/team-repository";
 import { DisbandTeamUseCase } from "./disband-team";
 
 describe("DisbandTeamUseCase", () => {

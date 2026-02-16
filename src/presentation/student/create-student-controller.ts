@@ -2,7 +2,7 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
 import { z } from "zod";
-import { CreateStudentUseCase, MailAddressAlreadyExistsError } from "../../application/use-case/create-student-use-case";
+import { CreateStudentUseCase, MailAddressAlreadyExistsError } from "../../application/use-case/student/create-student-use-case";
 import { PostgresqlLessonProgressRepository } from "../../infrastructure/repository/postgresql-lesson-progress-repository";
 import { PostgresqlLessonRepository } from "../../infrastructure/repository/postgresql-lesson-repository";
 import { PostgresqlStudentRepository } from "../../infrastructure/repository/postgresql-student-repository";
