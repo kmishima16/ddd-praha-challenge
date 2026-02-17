@@ -3,6 +3,7 @@ export type LessonGetByIdQueryServicePayload = {
   name: string;
   content: string;
   lessonCategoryId: string;
+  lessonCategoryName: string;
 };
 
 export interface ILessonGetByIdQueryService {
