@@ -7,6 +7,8 @@ import { changeLessonProgressStatusToInReviewController } from "./presentation/l
 import { changeLessonProgressStatusToCompletedController } from "./presentation/lesson-progress/change-lesson-progress-status-to-completed-controller";
 import { getLessonProgressByStudentIdController } from "./presentation/lesson-progress/get-lesson-progress-by-student-id-controller";
 import { getLessonProgressListByStudentIdController } from "./presentation/lesson-progress/get-lesson-progress-list-by-student-id-controller";
+import { createLessonCategoryController } from "./presentation/lesson-category/create-lesson-category-controller";
+import { getLessonCategoryListController } from "./presentation/lesson-category/get-lesson-category-list-controller";
 import { createLessonController } from "./presentation/lesson/create-lesson-controller";
 import { getLessonByIdController } from "./presentation/lesson/get-lesson-by-id-controller";
 import { getLessonListController } from "./presentation/lesson/get-lesson-list-controller";
@@ -26,6 +28,8 @@ import { splitTeamController } from "./presentation/team/split-team-controller";
 
 const app = new Hono();
 
+app.route("/", getLessonCategoryListController);
+app.route("/", createLessonCategoryController);
 app.route("/", createLessonController);
 app.route("/", getLessonListController);
 app.route("/", getLessonByIdController);
