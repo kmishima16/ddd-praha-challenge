@@ -107,7 +107,7 @@ export class Team extends Entity<TeamId> {
   }
 
   public isRequiredMailNotification(): boolean {
-    return this.studentIds.length === 2;
+    return this.studentIds.length <= 2;
   }
 
   private updateRecommendAction(): void {

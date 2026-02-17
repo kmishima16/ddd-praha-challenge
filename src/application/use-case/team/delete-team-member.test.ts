@@ -4,6 +4,7 @@ import { Team } from "../../../domain/model/team/team";
 import { TeamId } from "../../../domain/model/team/value-object/team-id";
 import { TeamName } from "../../../domain/model/team/value-object/team-name";
 import type { ITeamRepository } from "../../../domain/repository/team-repository";
+import type { INotificationService } from "../../../domain/specification/notification-service";
 import { DeleteTeamMemberUseCase } from "./delete-team-member";
 
 describe("DeleteTeamMemberUseCase", () => {
@@ -28,7 +29,14 @@ describe("DeleteTeamMemberUseCase", () => {
       remove: vi.fn(),
     };
 
-    const useCase = new DeleteTeamMemberUseCase(mockTeamRepository);
+    const mockNotificationService: INotificationService = {
+      notifyLowTeamMemberCount: vi.fn(),
+    };
+
+    const useCase = new DeleteTeamMemberUseCase(
+      mockTeamRepository,
+      mockNotificationService,
+    );
 
     const result = await useCase.invoke({
       studentId: studentId.value,
@@ -36,6 +44,9 @@ describe("DeleteTeamMemberUseCase", () => {
 
     expect(result.studentId).toBe(studentId.value);
     expect(mockTeamRepository.save).toHaveBeenCalledOnce();
+    expect(
+      mockNotificationService.notifyLowTeamMemberCount,
+    ).toHaveBeenCalledOnce();
   });
 
   it("throw error if team not found for the student", async () => {
@@ -50,7 +61,14 @@ describe("DeleteTeamMemberUseCase", () => {
       remove: vi.fn(),
     };
 
-    const useCase = new DeleteTeamMemberUseCase(mockTeamRepository);
+    const mockNotificationService: INotificationService = {
+      notifyLowTeamMemberCount: vi.fn(),
+    };
+
+    const useCase = new DeleteTeamMemberUseCase(
+      mockTeamRepository,
+      mockNotificationService,
+    );
 
     await expect(
       useCase.invoke({

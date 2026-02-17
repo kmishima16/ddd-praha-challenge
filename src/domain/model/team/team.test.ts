@@ -74,15 +74,20 @@ describe("Team", () => {
   });
 
   it("Teamのメール通知判定", () => {
-    const teamWithTwoMembers = Team.create(
+    const teamWithOneMember = Team.create(
       TeamName.create("TeamA"),
+      createStudentIds(1),
+    );
+    const teamWithTwoMembers = Team.create(
+      TeamName.create("TeamB"),
       createStudentIds(2),
     );
     const teamWithThreeMembers = Team.create(
-      TeamName.create("TeamB"),
+      TeamName.create("TeamC"),
       createStudentIds(3),
     );
 
+    expect(teamWithOneMember.isRequiredMailNotification()).toBe(true);
     expect(teamWithTwoMembers.isRequiredMailNotification()).toBe(true);
     expect(teamWithThreeMembers.isRequiredMailNotification()).toBe(false);
   });

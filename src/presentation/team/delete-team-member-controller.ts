@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
 import { DeleteTeamMemberUseCase } from "../../application/use-case/team/delete-team-member";
 import { PostgresqlTeamRepository } from "../../infrastructure/repository/postgresql-team-repository";
+import { ConsoleNotificationService } from "../../infrastructure/specification/console-notification-service";
 import { getDatabase } from "../../libs/drizzle/get-database";
 
 type Env = {
@@ -17,8 +18,12 @@ deleteTeamMemberController.delete(
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
     const teamRepository = new PostgresqlTeamRepository(database);
+    const notificationService = new ConsoleNotificationService();
 
-    const deleteTeamMemberUseCase = new DeleteTeamMemberUseCase(teamRepository);
+    const deleteTeamMemberUseCase = new DeleteTeamMemberUseCase(
+      teamRepository,
+      notificationService,
+    );
 
     context.set("deleteTeamMemberUseCase", deleteTeamMemberUseCase);
 
