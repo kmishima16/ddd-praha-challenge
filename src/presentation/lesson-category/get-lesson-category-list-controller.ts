@@ -18,13 +18,15 @@ getLessonCategoryListController.get(
     const database = getDatabase();
     const lessonCategoryListQueryService =
       new PostgresqlLessonCategoryListQueryService(database);
-    context.set("lessonCategoryListQueryService", lessonCategoryListQueryService);
+    context.set(
+      "lessonCategoryListQueryService",
+      lessonCategoryListQueryService,
+    );
 
     await next();
   }),
   async (context) => {
-    const payload =
-      await context.var.lessonCategoryListQueryService.invoke();
+    const payload = await context.var.lessonCategoryListQueryService.invoke();
     return context.json(payload);
   },
 );

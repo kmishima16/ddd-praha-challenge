@@ -16,8 +16,9 @@ getTeamByIdController.get(
   "/teams/:id",
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
-    const teamGetByIdQueryService =
-      new PostgresqlTeamGetByIdQueryService(database);
+    const teamGetByIdQueryService = new PostgresqlTeamGetByIdQueryService(
+      database,
+    );
     context.set("teamGetByIdQueryService", teamGetByIdQueryService);
 
     await next();

@@ -22,8 +22,9 @@ export class PostgresqlTeamListQueryService implements ITeamListQueryService {
         .where(eq(students.teamId, teamRow.id));
 
       const memberIds = memberRows.map((row) => row.userId);
-      const recommendAction =
-        RecommendAction.determineRecommendAction(memberIds.length).value;
+      const recommendAction = RecommendAction.determineRecommendAction(
+        memberIds.length,
+      ).value;
 
       result.push({
         id: teamRow.id,

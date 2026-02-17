@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { LessonCategoryId } from "./value-object/lesson-category-id";
 import { LessonCategory } from "./lesson-category";
+import { LessonCategoryId } from "./value-object/lesson-category-id";
 
 describe("LessonCategory", () => {
   it("LessonCategoryの生成", () => {

@@ -29,12 +29,14 @@ export class PostgresqlLessonGetByIdQueryService
       )
       .where(eq(lessons.id, id));
 
-    return row ? {
-      id: row.id,
-      name: row.name,
-      content: row.content,
-      lessonCategoryId: row.lessonCategoryId,
-      lessonCategoryName: row.lessonCategoryName,
-    } : null;
+    return row
+      ? {
+          id: row.id,
+          name: row.name,
+          content: row.content,
+          lessonCategoryId: row.lessonCategoryId,
+          lessonCategoryName: row.lessonCategoryName,
+        }
+      : null;
   }
 }

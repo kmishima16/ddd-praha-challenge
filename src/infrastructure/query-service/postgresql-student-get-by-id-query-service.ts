@@ -4,7 +4,7 @@ import type {
   StudentGetByIdQueryServicePayload,
 } from "../../application/query-service/student-get-by-id-query-service";
 import type { Database } from "../../libs/drizzle/get-database";
-import { students, studentStatus, users } from "../../libs/drizzle/schema";
+import { studentStatus, students, users } from "../../libs/drizzle/schema";
 
 export class PostgresqlStudentGetByIdQueryService
   implements IStudentGetByIdQueryService

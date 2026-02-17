@@ -30,8 +30,9 @@ export class PostgresqlTeamGetByIdQueryService
       .where(eq(students.teamId, id));
 
     const memberIds = memberRows.map((row) => row.userId);
-    const recommendAction =
-      RecommendAction.determineRecommendAction(memberIds.length).value;
+    const recommendAction = RecommendAction.determineRecommendAction(
+      memberIds.length,
+    ).value;
 
     return {
       id: teamRow.id,

@@ -16,8 +16,9 @@ getStudentByIdController.get(
   "/students/:id",
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
-    const studentGetByIdQueryService =
-      new PostgresqlStudentGetByIdQueryService(database);
+    const studentGetByIdQueryService = new PostgresqlStudentGetByIdQueryService(
+      database,
+    );
     context.set("studentGetByIdQueryService", studentGetByIdQueryService);
 
     await next();

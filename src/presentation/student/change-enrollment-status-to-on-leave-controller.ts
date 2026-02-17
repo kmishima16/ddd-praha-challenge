@@ -54,7 +54,10 @@ changeEnrollmentStatusToOnLeaveController.put(
           );
         }
 
-        if (error.message.includes("joined team for student") && error.message.includes("not found")) {
+        if (
+          error.message.includes("joined team for student") &&
+          error.message.includes("not found")
+        ) {
           return context.json(
             {
               error: "Bad Request",

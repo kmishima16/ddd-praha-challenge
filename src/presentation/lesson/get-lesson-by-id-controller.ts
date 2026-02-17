@@ -25,8 +25,7 @@ getLessonByIdController.get(
   }),
   async (context) => {
     const id = context.req.param("id");
-    const payload =
-      await context.var.lessonGetByIdQueryService.invoke(id);
+    const payload = await context.var.lessonGetByIdQueryService.invoke(id);
 
     if (payload === null) {
       return context.json({ error: "Not Found" }, 404);

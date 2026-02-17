@@ -88,9 +88,7 @@ export class Team extends Entity<TeamId> {
     if (!this.#studentIds.some((id) => id.equals(studentId))) {
       throw new Error("User is not a member of the team");
     }
-    this.#studentIds = this.#studentIds.filter(
-      (id) => !id.equals(studentId),
-    );
+    this.#studentIds = this.#studentIds.filter((id) => !id.equals(studentId));
     this.updateRecommendAction();
   }
 
