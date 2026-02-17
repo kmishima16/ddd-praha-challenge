@@ -12,6 +12,7 @@ import { addTeamMemberController } from "./presentation/team/add-team-member-con
 import { createTeamController } from "./presentation/team/create-team-controller";
 import { deleteTeamMemberController } from "./presentation/team/delete-team-member-controller";
 import { disbandTeamController } from "./presentation/team/disband-team-controller";
+import { getTeamListController } from "./presentation/team/get-team-list-controller";
 import { splitTeamController } from "./presentation/team/split-team-controller";
 
 const app = new Hono();
@@ -24,6 +25,7 @@ app.route("/", changeToInProgressController);
 app.route("/", changeToInReviewController);
 app.route("/", changeToCompletedController);
 app.route("/", createTeamController);
+app.route("/", getTeamListController);
 app.route("/", addTeamMemberController);
 app.route("/", deleteTeamMemberController);
 app.route("/", disbandTeamController);
