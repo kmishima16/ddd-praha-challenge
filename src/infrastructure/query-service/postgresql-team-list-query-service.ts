@@ -22,15 +22,17 @@ export class PostgresqlTeamListQueryService implements ITeamListQueryService {
         .where(eq(students.teamId, teamRow.id));
 
       const memberIds = memberRows.map((row) => row.userId);
-      const recommendAction = RecommendAction.determineRecommendAction(
+      const recommendActionObj = RecommendAction.determineRecommendAction(
         memberIds.length,
-      ).value;
+      );
 
       result.push({
         id: teamRow.id,
         name: teamRow.name,
         memberIds,
-        recommendAction,
+        recommendAction: recommendActionObj.value,
+        canSplit: recommendActionObj.isSplit(),
+        canDisband: recommendActionObj.isDisband(),
       });
     }
 

@@ -3,6 +3,8 @@ export type TeamGetByIdQueryServicePayload = {
   name: string;
   memberIds: string[];
   recommendAction: string;
+  canSplit: boolean;
+  canDisband: boolean;
 };
 
 export interface ITeamGetByIdQueryService {

@@ -3,6 +3,8 @@ export type TeamListQueryService = {
   name: string;
   memberIds: string[];
   recommendAction: string;
+  canSplit: boolean;
+  canDisband: boolean;
 };
 
 export interface ITeamListQueryService {
