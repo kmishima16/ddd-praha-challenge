@@ -167,12 +167,19 @@ pnpm run seed                # 初期データ投入
 | PUT | `/lesson-progress/:studentId/:lessonId/in-review` | レビュー待ちに変更 |
 | PUT | `/lesson-progress/:studentId/:lessonId/completed` | 完了に変更 |
 
+### 課題カテゴリ（LessonCategory）
+
+| Method | Endpoint | 説明 |
+|--------|----------|------|
+| GET | `/lesson-categories` | 課題カテゴリ一覧取得（id, name） |
+| POST | `/lesson-categories/new` | 課題カテゴリ作成 |
+
 ### 課題（Lesson）
 
 | Method | Endpoint | 説明 |
 |--------|----------|------|
-| GET | `/lessons` | 課題一覧取得 |
-| GET | `/lessons/:id` | 課題1件取得 |
+| GET | `/lessons` | 課題一覧取得（各件に `lessonCategoryId`, `lessonCategoryName` を含む） |
+| GET | `/lessons/:id` | 課題1件取得（`lessonCategoryId`, `lessonCategoryName` を含む） |
 | POST | `/lessons/new` | 課題作成 |
 
 ## 📄 ドキュメント
