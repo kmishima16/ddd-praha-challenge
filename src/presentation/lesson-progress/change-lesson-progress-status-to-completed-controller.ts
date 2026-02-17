@@ -1,29 +1,29 @@
 import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
-import { ChangeProgressStatusToInProgressUseCase } from "../../application/use-case/lesson-progress/change-progress-status-to-in-progress";
+import { ChangeProgressStatusToCompletedUseCase } from "../../application/use-case/lesson-progress/change-progress-status-to-completed";
 import { PostgresqlLessonProgressRepository } from "../../infrastructure/repository/postgresql-lesson-progress-repository";
 import { getDatabase } from "../../libs/drizzle/get-database";
 
 type Env = {
   Variables: {
-    changeToInProgressUseCase: ChangeProgressStatusToInProgressUseCase;
+    changeToCompletedUseCase: ChangeProgressStatusToCompletedUseCase;
   };
 };
 
-export const changeToInProgressController = new Hono<Env>();
+export const changeLessonProgressStatusToCompletedController = new Hono<Env>();
 
-changeToInProgressController.put(
-  "/lesson-progress/:studentId/:lessonId/in-progress",
+changeLessonProgressStatusToCompletedController.put(
+  "/lesson-progress/:studentId/:lessonId/completed",
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
     const lessonProgressRepository = new PostgresqlLessonProgressRepository(
       database,
     );
 
-    const changeToInProgressUseCase =
-      new ChangeProgressStatusToInProgressUseCase(lessonProgressRepository);
-
-    context.set("changeToInProgressUseCase", changeToInProgressUseCase);
+    const changeToCompletedUseCase = new ChangeProgressStatusToCompletedUseCase(
+      lessonProgressRepository,
+    );
+    context.set("changeToCompletedUseCase", changeToCompletedUseCase);
 
     await next();
   }),
@@ -31,7 +31,7 @@ changeToInProgressController.put(
     const { studentId, lessonId } = context.req.param();
 
     try {
-      const payload = await context.var.changeToInProgressUseCase.invoke({
+      const payload = await context.var.changeToCompletedUseCase.invoke({
         studentId,
         lessonId,
       });
@@ -45,16 +45,6 @@ changeToInProgressController.put(
               message: error.message,
             },
             404,
-          );
-        }
-
-        if (error.message.includes("Cannot change status")) {
-          return context.json(
-            {
-              error: "Bad Request",
-              message: error.message,
-            },
-            400,
           );
         }
 

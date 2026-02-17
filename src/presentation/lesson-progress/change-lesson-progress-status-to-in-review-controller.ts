@@ -10,9 +10,9 @@ type Env = {
   };
 };
 
-export const changeToInReviewController = new Hono<Env>();
+export const changeLessonProgressStatusToInReviewController = new Hono<Env>();
 
-changeToInReviewController.put(
+changeLessonProgressStatusToInReviewController.put(
   "/lesson-progress/:studentId/:lessonId/in-review",
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
