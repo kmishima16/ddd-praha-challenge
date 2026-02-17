@@ -2,14 +2,6 @@
 
 ドメイン駆動設計（DDD）とオニオンアーキテクチャを採用した学習管理システムのバックエンドAPIです。
 
-## 📚 目次
-
-- [クイックスタート](#-クイックスタート)
-- [プロジェクト概要](#-プロジェクト概要)
-- [技術スタック](#-技術スタック)
-- [開発コマンド](#-開発コマンド)
-- [APIエンドポイント](#-apiエンドポイント)
-- [ドキュメント](#-ドキュメント)
 
 ## 🚀 クイックスタート
 
@@ -19,16 +11,37 @@
 - pnpm 9.x
 - Docker / Docker Compose
 
+### 環境変数
+
+プロジェクトルートに `.env` ファイルを作成し、以下の環境変数を設定してください。
+
+```bash
+# .env.example をコピー
+cp .env.example .env
+```
+
+**必須の環境変数：**
+
+```bash
+DB_HOST=localhost      # PostgreSQLのホスト
+DB_PORT=5432          # PostgreSQLのポート
+DB_USER=postgres      # データベースユーザー名
+DB_PASSWORD=password  # データベースパスワード
+DB_NAME=database      # データベース名
+```
+
+> **Note:** APIサーバーは `http://localhost:3000` で起動します（環境変数での変更不可）。
+
 ### セットアップ手順
 
 ```bash
 # 1. 依存関係のインストール
 pnpm install
 
-# 2. 環境変数の設定
+# 2. 環境変数の設定（上記参照）
 cp .env.example .env
 
-# 3. データベースの起動
+# 3. データベースの起動（PostgreSQL 15.3 + ヘルスチェック機能付き）
 docker compose up -d
 
 # 4. マイグレーションの実行
@@ -43,19 +56,6 @@ pnpm run dev
 
 サーバーが `http://localhost:3000` で起動します。
 
-### 動作確認
-
-```bash
-# 生徒一覧を取得（空の配列が返れば成功）
-curl http://localhost:3000/students
-
-# 生徒を作成
-curl -X POST http://localhost:3000/students/new \
-  -H "Content-Type: application/json" \
-  -d '{"name": "山田太郎", "mailAddress": "yamada@example.com"}'
-```
-
-詳細なAPIテストは [docs/setup-commands/api-test.sh](docs/setup-commands/api-test.sh) を参照してください。
 
 ## 📖 プロジェクト概要
 
@@ -70,28 +70,37 @@ curl -X POST http://localhost:3000/students/new \
 
 詳細な仕様は [docs/仕様.md](docs/仕様.md) を参照してください。
 
-### アーキテクチャ
+## 🏗 アーキテクチャ
 
-オニオンアーキテクチャを採用しています。
+**オニオンアーキテクチャ + CQRS パターン**を採用しています。
 
 ```
 src/
 ├── domain/           # ドメイン層（ビジネスロジックの中核）
 │   ├── model/        # エンティティ・値オブジェクト・集約
+│   │   └── *.test.ts # テストファイル（コロケーション）
 │   ├── repository/   # リポジトリインターフェース
 │   └── specification/# 仕様パターンインターフェース
 ├── application/      # アプリケーション層（ユースケース）
-│   ├── use-case/     # コマンド系
-│   └── query-service/# クエリ系（CQRS）
+│   ├── use-case/     # コマンド系（書き込み操作）
+│   └── query-service/# クエリ系（読み取り専用・CQRS）
 ├── infrastructure/   # インフラストラクチャ層（永続化実装）
 │   ├── repository/   # リポジトリ実装（PostgreSQL）
+│   ├── specification/# 仕様パターン実装
 │   └── query-service/# クエリサービス実装
 ├── presentation/     # プレゼンテーション層（HTTPハンドラ）
 └── libs/             # 共通ユーティリティ
-    └── drizzle/      # DB接続・スキーマ・マイグレーション
+    ├── drizzle/      # DB接続・スキーマ・マイグレーション
+    └── ulid/         # ID生成
 ```
 
-詳細なアーキテクチャガイドは [.github/copilot-instructions.md](.github/copilot-instructions.md) を参照してください。
+**設計の特徴：**
+- 依存の方向は常に内側（Domain層）に向かう
+- Domain層は外部のライブラリやフレームワークに依存しない
+- **CQRS**: コマンド（書き込み）とクエリ（読み取り）を明確に分離
+- **テストコロケーション**: テストファイルは実装と同じディレクトリに配置
+
+詳細なアーキテクチャガイド・実装ルールは [.github/copilot-instructions.md](.github/copilot-instructions.md) を参照してください。
 
 ## 🛠 技術スタック
 
@@ -107,29 +116,63 @@ src/
 | リンター/フォーマッター | Biome |
 | パッケージマネージャ | pnpm |
 
-## 💻 開発コマンド
+
+## �💻 開発コマンド
 
 ```bash
-# 開発サーバー起動（ホットリロード対応）
+# 開発サーバー起動（HMR対応・ポート3000）
 pnpm run dev
 
-# 静的解析 + 型チェック
-pnpm run lint
+# コード品質チェック（コミット前に必須）
+pnpm run lint          # Biomeチェック + TypeScript型チェックを両方実行
+pnpm run type-check    # TypeScript型チェックのみ
 
 # テスト実行
-pnpm run test
-pnpm run test:watch  # ウォッチモード
+pnpm run test          # 全テスト実行
+pnpm run test:watch    # ウォッチモード
 
 # ビルド
-pnpm run build
-pnpm run start       # ビルド後の起動
+pnpm run build         # 本番用ビルド
+pnpm run start         # ビルド後の起動
 
 # データベース関連
 pnpm run migration:generate  # マイグレーションファイル生成
 pnpm run migration:apply     # マイグレーション適用
 pnpm run migration:drop      # マイグレーション削除
-pnpm run seed                # 初期データ投入
+pnpm run seed                # 初期データ投入（課題カテゴリ + 課題）
 ```
+
+## 🧪 テスト
+
+**テストフレームワーク:** Vitest
+
+### テスト構成
+
+- **テストコロケーション**: テストファイルは実装ファイルと同じディレクトリに配置
+- **命名規則**: `*.test.ts`
+- **カバレッジ**: 全てのユースケースとドメインモデルに対してテストを実装
+
+```
+src/
+├── domain/model/student/
+│   ├── student.ts
+│   └── student.test.ts        # ← 実装と同じ場所に配置
+└── application/use-case/student/
+    ├── create-student-use-case.ts
+    └── create-student-use-case.test.ts
+```
+
+### テスト実行
+
+```bash
+# 全テスト実行
+pnpm run test
+
+# ウォッチモード（ファイル変更時に自動実行）
+pnpm run test:watch
+```
+
+設定: [vitest.config.ts](vitest.config.ts)
 
 ## 🔌 APIエンドポイント
 
@@ -182,23 +225,54 @@ pnpm run seed                # 初期データ投入
 | GET | `/lessons/:id` | 課題1件取得（`lessonCategoryId`, `lessonCategoryName` を含む） |
 | POST | `/lessons/new` | 課題作成 |
 
-## 📄 ドキュメント
+---
 
-| ドキュメント | 内容 |
-|-------------|------|
-| [docs/仕様.md](docs/仕様.md) | ドメインの詳細仕様 |
-| [docs/initial-data-setup.md](docs/initial-data-setup.md) | 初期データセットアップ手順 |
-| [docs/api-verification-report.md](docs/api-verification-report.md) | API検証レポート |
-| [docs/setup-commands/](docs/setup-commands/) | APIテスト・データ確認用シェルスクリプト |
-| [.github/copilot-instructions.md](.github/copilot-instructions.md) | DDDオニオンアーキテクチャ実装ガイド |
+## 📖 ドキュメント
 
-## ⚠️ 注意事項
+| ドキュメント | 説明 |
+|------------|------|
+| [アーキテクチャガイド](.github/copilot-instructions.md) | **必読**: DDD/オニオンアーキテクチャの実装ルール、命名規則、各層の責務を詳細に解説（250行以上） |
+| [API リファレンス](docs/v0-api-reference.md) | フロントエンド開発者向けの詳細なAPI仕様書（TypeScript型定義・サンプルコード付き） |
+| [API 検証レポート](docs/api-verification-report.md) | 全APIエンドポイントの動作検証レポート（19テストケース・全てパス） |
+| [仕様書](docs/仕様.md) | ビジネス要件・ドメインルール・制約条件の詳細 |
 
-このリポジトリは学習目的のテンプレートです。以下の点は改善の余地があります：
+### 推奨読解順序
 
-- Nominal Typing（構造的部分型の制限）
-- より厳密なValue Objectの実装
-- DIコンテナの導入
-- Result型によるエラーハンドリング
+1. **[仕様書](docs/仕様.md)** - ビジネス要件を理解
+2. **[アーキテクチャガイド](.github/copilot-instructions.md)** - 実装ルールを把握
+3. **[API リファレンス](docs/v0-api-reference.md)** - API設計を確認
+4. 既存コードを読む - 実装パターンを学習
 
-あるべき姿を模索しつつ実装を進めてください！
+---
+
+## ✨ ベストプラクティス
+
+### コード品質
+
+- ✅ **コミット前チェック必須**: `pnpm run lint` を必ず実行
+- ✅ **厳格なTypeScript**: `@tsconfig/strictest` による最も厳しい型チェック
+- ✅ **依存バージョン固定**: pnpmの `save-exact` で再現性を保証
+
+### テスト
+
+- ✅ **テストコロケーション**: テストは実装と同じディレクトリに配置
+- ✅ **高いカバレッジ**: 全ユースケースとドメインモデルをテスト
+- ✅ **ウォッチモード活用**: `pnpm run test:watch` で開発効率向上
+
+### アーキテクチャ
+
+- ✅ **CQRS分離**: コマンド（use-case）とクエリ（query-service）を明確に分離
+- ✅ **依存方向の厳守**: 外側→内側（Domain層）への依存のみ許可
+- ✅ **ドメイン純粋性**: Domain層は外部ライブラリに依存しない
+- ✅ **インターフェース駆動**: Repository/Specificationはインターフェースを介して実装
+
+### 開発フロー
+
+1. 仕様書・アーキテクチャガイドを確認
+2. 既存の似た実装を参考にする
+3. テストを書きながら実装（TDD推奨）
+4. `pnpm run lint` でコード品質チェック
+5. `pnpm run test` で全テスト実行
+6. コミット
+
+詳細は [.github/copilot-instructions.md](.github/copilot-instructions.md) を参照してください。
