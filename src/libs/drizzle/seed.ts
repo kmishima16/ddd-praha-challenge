@@ -1,9 +1,18 @@
 import "dotenv/config";
 
-import { eq } from "drizzle-orm";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { ulid } from "../ulid";
 import { getDatabase } from "./get-database";
-import { lessonCategories, lessons, studentStatus, taskStatus } from "./schema";
+import {
+  lessonCategories,
+  lessons,
+  studentStatus,
+  studentTasks,
+  students,
+  taskStatus,
+  teams,
+  users,
+} from "./schema";
 
 /**
  * マスターデータのシード投入
@@ -571,6 +580,226 @@ async function seed() {
   }
 
   console.log(`✅ lessons: ${lessonsData.length} records`);
+
+  // ========================================
+  // デモ用データ（フロントエンド動作確認用）
+  // ========================================
+  console.log("🌱 Seeding demo data (3 teams, 9 students)...");
+
+  const [enrolledStatus] = await db
+    .select({ id: studentStatus.id })
+    .from(studentStatus)
+    .where(eq(studentStatus.name, "ENROLLED"));
+  if (!enrolledStatus) {
+    throw new Error("ENROLLED student status not found");
+  }
+
+  const taskStatusRows = await db
+    .select({ id: taskStatus.id, name: taskStatus.name })
+    .from(taskStatus)
+    .where(
+      inArray(taskStatus.name, [
+        "NOT_STARTED",
+        "IN_PROGRESS",
+        "IN_REVIEW",
+        "COMPLETED",
+      ]),
+    );
+  const taskStatusById = Object.fromEntries(
+    taskStatusRows.map((r) => [r.name, r.id]),
+  ) as Record<string, string>;
+  const notStartedId = taskStatusById["NOT_STARTED"];
+  const inProgressId = taskStatusById["IN_PROGRESS"];
+  const inReviewId = taskStatusById["IN_REVIEW"];
+  const completedId = taskStatusById["COMPLETED"];
+
+  const allLessons = await db
+    .select({ id: lessons.id })
+    .from(lessons)
+    .orderBy(asc(lessons.id));
+  const lessonIds = allLessons.map((l) => l.id);
+  const lessonCount = lessonIds.length;
+
+  const demoUsers = [
+    { name: "田中太郎", mailAddress: "tanaka@example.com" },
+    { name: "山田花子", mailAddress: "yamada@example.com" },
+    { name: "鈴木一郎", mailAddress: "suzuki@example.com" },
+    { name: "佐藤美咲", mailAddress: "sato@example.com" },
+    { name: "高橋健太", mailAddress: "takahashi@example.com" },
+    { name: "伊藤直樹", mailAddress: "ito@example.com" },
+    { name: "渡辺さくら", mailAddress: "watanabe@example.com" },
+    { name: "中村大輔", mailAddress: "nakamura@example.com" },
+    { name: "小林優子", mailAddress: "kobayashi@example.com" },
+  ];
+
+  const demoUserIds = demoUsers.map(() => ulid());
+  for (let i = 0; i < demoUsers.length; i++) {
+    await db
+      .insert(users)
+      .values({
+        id: demoUserIds[i] ?? ulid(),
+        name: demoUsers[i]?.name ?? "",
+        mailAddress: demoUsers[i]?.mailAddress ?? "",
+      })
+      .onConflictDoNothing({ target: users.mailAddress });
+  }
+
+  const insertedUserRows = await db
+    .select({ id: users.id, mailAddress: users.mailAddress })
+    .from(users)
+    .where(
+      inArray(
+        users.mailAddress,
+        demoUsers.map((u) => u.mailAddress),
+      ),
+    );
+  const mailOrder = demoUsers.map((u) => u.mailAddress);
+  const userIds = insertedUserRows
+    .sort(
+      (a, b) =>
+        mailOrder.indexOf(a.mailAddress) - mailOrder.indexOf(b.mailAddress),
+    )
+    .map((r) => r.id);
+  if (userIds.length !== 9) {
+    throw new Error(`Expected 9 users, got ${userIds.length}`);
+  }
+
+  const teamNames = ["a", "b", "c"] as const;
+  const teamIdsForInsert = teamNames.map(() => ulid());
+  for (let i = 0; i < teamNames.length; i++) {
+    await db
+      .insert(teams)
+      .values({ id: teamIdsForInsert[i] ?? ulid(), name: teamNames[i] ?? "" })
+      .onConflictDoNothing({ target: teams.name });
+  }
+
+  const teamRows = await db
+    .select({ id: teams.id })
+    .from(teams)
+    .where(inArray(teams.name, ["a", "b", "c"]))
+    .orderBy(asc(teams.name));
+  const [teamAId, teamBId, teamCId] = teamRows.map((r) => r.id);
+  if (!teamAId || !teamBId || !teamCId) {
+    throw new Error("Expected 3 teams (a, b, c)");
+  }
+
+  for (let i = 0; i < userIds.length; i++) {
+    const teamId = i < 3 ? teamAId : i < 6 ? teamBId : teamCId;
+    await db
+      .insert(students)
+      .values({
+        userId: userIds[i] ?? "",
+        studentStatusId: enrolledStatus.id,
+        teamId,
+      })
+      .onConflictDoUpdate({
+        target: students.userId,
+        set: {
+          studentStatusId: enrolledStatus.id,
+          teamId,
+          updatedAt: new Date(),
+        },
+      });
+  }
+
+  console.log("✅ Demo: 9 users, 3 teams, 9 students");
+
+  // student_tasks: 9人 × 全レッスン、初期は NOT_STARTED
+  const taskValues: Array<{
+    studentId: string;
+    lessonId: string;
+    taskStatusId: string;
+  }> = [];
+  for (const userId of userIds) {
+    for (const lessonId of lessonIds) {
+      taskValues.push({
+        studentId: userId,
+        lessonId,
+        taskStatusId: notStartedId ?? "",
+      });
+    }
+  }
+  const BATCH_SIZE = 500;
+  for (let i = 0; i < taskValues.length; i += BATCH_SIZE) {
+    const batch = taskValues.slice(i, i + BATCH_SIZE);
+    await db
+      .insert(studentTasks)
+      .values(batch)
+      .onConflictDoNothing({
+        target: [studentTasks.studentId, studentTasks.lessonId],
+      });
+  }
+
+  // チーム a: すごく進んでいる（約半数完了、約2割レビュー待ち、約1割取組中）
+  const teamAStudentIds = userIds.slice(0, 3);
+  const completedCount = Math.floor(lessonCount * 0.5);
+  const inReviewCount = Math.floor(lessonCount * 0.2);
+  const inProgressCount = Math.min(
+    10,
+    lessonCount - completedCount - inReviewCount,
+  );
+  const completedLessonIds = lessonIds.slice(0, completedCount);
+  const inReviewLessonIds = lessonIds.slice(
+    completedCount,
+    completedCount + inReviewCount,
+  );
+  const inProgressLessonIds = lessonIds.slice(
+    completedCount + inReviewCount,
+    completedCount + inReviewCount + inProgressCount,
+  );
+
+  if (completedLessonIds.length > 0) {
+    await db
+      .update(studentTasks)
+      .set({ taskStatusId: completedId, updatedAt: new Date() })
+      .where(
+        and(
+          inArray(studentTasks.studentId, teamAStudentIds),
+          inArray(studentTasks.lessonId, completedLessonIds),
+        ),
+      );
+  }
+  if (inReviewLessonIds.length > 0) {
+    await db
+      .update(studentTasks)
+      .set({ taskStatusId: inReviewId, updatedAt: new Date() })
+      .where(
+        and(
+          inArray(studentTasks.studentId, teamAStudentIds),
+          inArray(studentTasks.lessonId, inReviewLessonIds),
+        ),
+      );
+  }
+  if (inProgressLessonIds.length > 0) {
+    await db
+      .update(studentTasks)
+      .set({ taskStatusId: inProgressId, updatedAt: new Date() })
+      .where(
+        and(
+          inArray(studentTasks.studentId, teamAStudentIds),
+          inArray(studentTasks.lessonId, inProgressLessonIds),
+        ),
+      );
+  }
+
+  // チーム c: 少しだけ進んでいる（先頭5件を完了）
+  const teamCStudentIds = userIds.slice(6, 9);
+  const teamCCompletedLessonIds = lessonIds.slice(0, 5);
+  if (teamCCompletedLessonIds.length > 0) {
+    await db
+      .update(studentTasks)
+      .set({ taskStatusId: completedId, updatedAt: new Date() })
+      .where(
+        and(
+          inArray(studentTasks.studentId, teamCStudentIds),
+          inArray(studentTasks.lessonId, teamCCompletedLessonIds),
+        ),
+      );
+  }
+
+  console.log(
+    `✅ Demo: ${lessonCount * 9} student_tasks (team a: progressed, team b: not started, team c: a few completed)`,
+  );
 
   console.log("🎉 Seed completed!");
   process.exit(0);
