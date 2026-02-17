@@ -25,8 +25,18 @@ import { disbandTeamController } from "./presentation/team/disband-team-controll
 import { getTeamByIdController } from "./presentation/team/get-team-by-id-controller";
 import { getTeamListController } from "./presentation/team/get-team-list-controller";
 import { splitTeamController } from "./presentation/team/split-team-controller";
+import { cors } from "hono/cors";
 
 const app = new Hono();
+
+// CORS設定: Next.jsフロントエンド(localhost:3001)からのアクセスを許可
+app.use(
+  "/*",
+  cors({
+    origin: "http://localhost:3001",
+    credentials: true,
+  }),
+);
 
 app.route("/", getLessonCategoryListController);
 app.route("/", createLessonCategoryController);
