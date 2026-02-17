@@ -7,7 +7,7 @@ import { TeamId } from "../../../domain/model/team/value-object/team-id";
 import { TeamName } from "../../../domain/model/team/value-object/team-name";
 import type { IStudentRepository } from "../../../domain/repository/student-repository";
 import type { ITeamRepository } from "../../../domain/repository/team-repository";
-import { ChangeEnrollmentStatusToOnLeaveUseCase } from "./change-enrollment-status-to-withdrawn";
+import { ChangeEnrollmentStatusToWithdrawnUseCase } from "./change-enrollment-status-to-withdrawn";
 
 describe("ChangeEnrollmentStatusToWithdrawnUseCase", () => {
   it("change enrollment status to withdrawn", async () => {
@@ -43,7 +43,7 @@ describe("ChangeEnrollmentStatusToWithdrawnUseCase", () => {
       remove: vi.fn(),
     };
 
-    const useCase = new ChangeEnrollmentStatusToOnLeaveUseCase(
+    const useCase = new ChangeEnrollmentStatusToWithdrawnUseCase(
       mockStudentRepository,
       mockTeamRepository,
     );
@@ -75,7 +75,7 @@ describe("ChangeEnrollmentStatusToWithdrawnUseCase", () => {
       remove: vi.fn(),
     };
 
-    const useCase = new ChangeEnrollmentStatusToOnLeaveUseCase(
+    const useCase = new ChangeEnrollmentStatusToWithdrawnUseCase(
       mockStudentRepository,
       mockTeamRepository,
     );
@@ -112,7 +112,7 @@ describe("ChangeEnrollmentStatusToWithdrawnUseCase", () => {
       remove: vi.fn(),
     };
 
-    const useCase = new ChangeEnrollmentStatusToOnLeaveUseCase(
+    const useCase = new ChangeEnrollmentStatusToWithdrawnUseCase(
       mockStudentRepository,
       mockTeamRepository,
     );

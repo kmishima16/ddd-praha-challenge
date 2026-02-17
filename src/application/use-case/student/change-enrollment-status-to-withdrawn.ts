@@ -12,7 +12,7 @@ export type ChangeEnrollmentStatusToWithdrawnUseCasePayload = {
   status: string;
 };
 
-export class ChangeEnrollmentStatusToOnLeaveUseCase {
+export class ChangeEnrollmentStatusToWithdrawnUseCase {
   public constructor(
     private readonly studentRepository: IStudentRepository,
     private readonly teamRepository: ITeamRepository,

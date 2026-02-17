@@ -3,7 +3,7 @@ import { Student } from "../../../domain/model/student/student";
 import { MailAddress } from "../../../domain/model/student/value-object/mail-address";
 import { StudentId } from "../../../domain/model/student/value-object/student-id";
 import type { IStudentRepository } from "../../../domain/repository/student-repository";
-import { ChangeEnrollmentStatusToOnLeaveUseCase } from "./change-enrollment-status-to-enrolled";
+import { ChangeEnrollmentStatusToEnrolledUseCase } from "./change-enrollment-status-to-enrolled";
 
 describe("ChangeEnrollmentStatusToEnrolledUseCase", () => {
   it("change enrollment status to enrolled", async () => {
@@ -20,7 +20,7 @@ describe("ChangeEnrollmentStatusToEnrolledUseCase", () => {
       findById: vi.fn().mockResolvedValue(mockStudent),
     };
 
-    const useCase = new ChangeEnrollmentStatusToOnLeaveUseCase(
+    const useCase = new ChangeEnrollmentStatusToEnrolledUseCase(
       mockStudentRepository,
     );
 
@@ -39,7 +39,7 @@ describe("ChangeEnrollmentStatusToEnrolledUseCase", () => {
       findById: vi.fn().mockResolvedValue(null),
     };
 
-    const useCase = new ChangeEnrollmentStatusToOnLeaveUseCase(
+    const useCase = new ChangeEnrollmentStatusToEnrolledUseCase(
       mockStudentRepository,
     );
 

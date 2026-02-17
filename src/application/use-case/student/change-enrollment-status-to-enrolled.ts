@@ -11,7 +11,7 @@ export type ChangeEnrollmentStatusToEnrolledUseCasePayload = {
   status: string;
 };
 
-export class ChangeEnrollmentStatusToOnLeaveUseCase {
+export class ChangeEnrollmentStatusToEnrolledUseCase {
   public constructor(private readonly studentRepository: IStudentRepository) {}
 
   public async invoke(
