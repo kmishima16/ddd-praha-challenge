@@ -138,12 +138,18 @@ pnpm run seed                # 初期データ投入
 | Method | Endpoint | 説明 |
 |--------|----------|------|
 | GET | `/students` | 参加者一覧取得 |
+| GET | `/students/:id` | 参加者1件取得 |
 | POST | `/students/new` | 参加者作成 |
+| PUT | `/students/:studentId/enrollment-status/enrolled` | 在籍中に変更 |
+| PUT | `/students/:studentId/enrollment-status/on-leave` | 休会中に変更 |
+| PUT | `/students/:studentId/enrollment-status/withdrawn` | 退会済に変更 |
 
 ### チーム（Team）
 
 | Method | Endpoint | 説明 |
 |--------|----------|------|
+| GET | `/teams` | チーム一覧取得 |
+| GET | `/teams/:id` | チーム1件取得 |
 | POST | `/teams/new` | チーム作成 |
 | POST | `/teams/:teamId/members/add` | メンバー追加 |
 | DELETE | `/teams/members/:studentId` | メンバー削除 |
@@ -154,6 +160,8 @@ pnpm run seed                # 初期データ投入
 
 | Method | Endpoint | 説明 |
 |--------|----------|------|
+| GET | `/students/:studentId/lesson-progress` | 参加者別の課題進捗一覧取得 |
+| GET | `/students/:studentId/lesson-progress/:lessonId` | 参加者・課題別の進捗1件取得 |
 | POST | `/lesson-progress/new` | 課題進捗作成 |
 | PUT | `/lesson-progress/:studentId/:lessonId/in-progress` | 取組中に変更 |
 | PUT | `/lesson-progress/:studentId/:lessonId/in-review` | レビュー待ちに変更 |
@@ -163,6 +171,8 @@ pnpm run seed                # 初期データ投入
 
 | Method | Endpoint | 説明 |
 |--------|----------|------|
+| GET | `/lessons` | 課題一覧取得 |
+| GET | `/lessons/:id` | 課題1件取得 |
 | POST | `/lessons/new` | 課題作成 |
 
 ## 📄 ドキュメント
@@ -171,6 +181,7 @@ pnpm run seed                # 初期データ投入
 |-------------|------|
 | [docs/仕様.md](docs/仕様.md) | ドメインの詳細仕様 |
 | [docs/initial-data-setup.md](docs/initial-data-setup.md) | 初期データセットアップ手順 |
+| [docs/api-verification-report.md](docs/api-verification-report.md) | API検証レポート |
 | [docs/setup-commands/](docs/setup-commands/) | APIテスト・データ確認用シェルスクリプト |
 | [.github/copilot-instructions.md](.github/copilot-instructions.md) | DDDオニオンアーキテクチャ実装ガイド |
 
