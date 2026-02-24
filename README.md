@@ -7,54 +7,30 @@
 
 ### 前提条件
 
-- Node.js 20.x
-- pnpm 9.x
 - Docker / Docker Compose
-
-### 環境変数
-
-プロジェクトルートに `.env` ファイルを作成し、以下の環境変数を設定してください。
-
-```bash
-# .env.example をコピー
-cp .env.example .env
-```
-
-**必須の環境変数：**
-
-```bash
-DB_HOST=localhost      # PostgreSQLのホスト
-DB_PORT=5432          # PostgreSQLのポート
-DB_USER=postgres      # データベースユーザー名
-DB_PASSWORD=password  # データベースパスワード
-DB_NAME=database      # データベース名
-```
-
-> **Note:** APIサーバーは `http://localhost:3000` で起動します（環境変数での変更不可）。
 
 ### セットアップ手順
 
+Node.js / pnpm のローカルインストール不要。**コンテナ起動時にマイグレーションを自動実行**します。
+
 ```bash
-# 1. 依存関係のインストール
-pnpm install
-
-# 2. 環境変数の設定（上記参照）
-cp .env.example .env
-
-# 3. データベースの起動（PostgreSQL 15.3 + ヘルスチェック機能付き）
-docker compose up -d
-
-# 4. マイグレーションの実行
-pnpm run migration:apply
-
-# 5. 初期データの投入（マスターデータ + レッスン）
-pnpm run seed
-
-# 6. 開発サーバーの起動
-pnpm run dev
+# イメージビルドから起動まで
+docker compose up --build -d
 ```
 
 サーバーが `http://localhost:3000` で起動します。
+
+> **起動フロー:**
+> 1. PostgreSQL 15.3 コンテナ起動（ヘルスチェック通過待機）
+> 2. `drizzle-kit migrate` でマイグレーション自動適用
+> 3. `node dist/index.mjs` でサーバー起動
+
+初期データ（課題カテゴリ + 課題）の投入は別途必要です:
+
+```bash
+# 初期データ投入（コンテナ起動後に実行）
+docker compose exec app pnpm run seed
+```
 
 
 ## 📖 プロジェクト概要
@@ -115,7 +91,7 @@ src/
 | テスト | Vitest |
 | リンター/フォーマッター | Biome |
 | パッケージマネージャ | pnpm |
-
+| コンテナ | Docker / Docker Compose |
 
 ## �💻 開発コマンド
 

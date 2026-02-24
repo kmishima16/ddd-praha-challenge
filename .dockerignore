@@ -1,0 +1,32 @@
+# バージョン管理
+.git
+.gitignore
+
+# 依存関係（コンテナ内で再インストール）
+node_modules
+
+# ビルド成果物
+dist
+
+# 環境設定ファイル（シークレット情報）
+.env
+.env.*
+
+# ドキュメント
+docs/
+*.md
+
+# テスト
+**/*.test.ts
+**/*.spec.ts
+
+# IDE・エディタ設定
+.vscode
+.idea
+
+# ログ
+*.log
+
+# Docker関連（ビルドコンテキストに不要）
+compose.yml
+.dockerignore
