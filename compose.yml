@@ -4,12 +4,8 @@ services:
     container_name: app
     ports:
       - 3000:3000
-    environment:
-      - DB_HOST=database
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=password
-      - DB_NAME=database
+    env_file:
+      - .env
     command: >-
       sh -c "pnpm exec drizzle-kit migrate && node dist/index.mjs"
     depends_on:
@@ -19,10 +15,8 @@ services:
   database:
     image: postgres:15.3
     container_name: database
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=database
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d database -U postgres"]
       interval: 5s
