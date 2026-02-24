@@ -15,6 +15,7 @@ export default defineConfig({
       external: [
         ...builtinModules,
         ...builtinModules.map((module) => `node:${module}`),
+        "ulid",
       ],
     },
   },
